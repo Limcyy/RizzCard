@@ -1,8 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import './App.css'
-import Card from './components/Card'
-import ProgressDots from './components/ProgressDots'
-import { defaultCards } from './data/cardData'
+import shyEmoji from './assets/shy-emoji.png'
 
 function App() {
   const [cards, setCards] = useState(defaultCards)
@@ -168,17 +166,12 @@ function App() {
       sliderRef.current.style.transform = `translateX(${newTranslate}%)`
     }
   }
-
-  const resetCards = () => {
-    setCurrentCardIndex(0)
-    setPrevTranslate(0)
-    setCurrentTranslate(0)
-    if (sliderRef.current) {
-      sliderRef.current.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)'
-      sliderRef.current.style.transform = 'translateX(0%)'
-    }
-    setCompleted(false)
-  }
+  
+  // Update transform when current card index changes via dots
+  useEffect(() => {
+    setPrevTranslate(-currentCardIndex * 100)
+    setCurrentTranslate(-currentCardIndex * 100)
+  }, [currentCardIndex])
   
   return (
     <div className='main-page-wrapper'>

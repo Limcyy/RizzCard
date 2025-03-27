@@ -84,7 +84,7 @@
   border-radius: 2.91863rem;
   border: 3.451px solid var(--cardBorder);
   background: #FFF;
-  box-shadow: 0px 0px 7.476px 4.601px var(--cardShadow);
+  box-shadow: 0px 0px 7.476px 4.601px #FFF2F3;
   background-image: url('./assets/card-bg.png');
   background-size: cover;
   background-position: center;
