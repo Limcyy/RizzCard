@@ -1,52 +1,44 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import './App.css'
-import shyEmoji from './assets/shy-emoji.png'
+import Card from './components/Card'
+import ProgressDots from './components/ProgressDots'
+import { defaultCards } from './data/cardData'
 
 function App() {
-  useEffect(() => {
-    document.body.style.overflow = 'hidden'
-    
-    // Cleanup function to reset overflow when component unmounts
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [])
-
-  // Cards data
-  const cards = [
-    {
-      title: "Hey, I was basically too scared to talk to you, so I just gave you this card..",
-      image: shyEmoji
-    },
-    {
-      title: "I think you're really cool and I'd like to get to know you better...",
-      image: shyEmoji
-    },
-    {
-      title: "Maybe we could hang out sometime?",
-      image: shyEmoji
-    },
-    {
-      title: "I'd really like that!",
-      image: shyEmoji
-    },
-    {
-      title: "What do you say?",
-      image: shyEmoji
-    }
-  ]
-
+  const [cards, setCards] = useState(defaultCards)
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
   const [currentTranslate, setCurrentTranslate] = useState(0)
   const [prevTranslate, setPrevTranslate] = useState(0)
+  const [completed, setCompleted] = useState(false)
   const sliderRef = useRef(null)
   
   // For velocity tracking
   const lastX = useRef(0)
   const lastTime = useRef(0)
   const velocity = useRef(0)
+  
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [])
+
+  // Check if user has reached the last card
+  useEffect(() => {
+    if (currentCardIndex === cards.length - 1) {
+      const timer = setTimeout(() => {
+        setCompleted(true)
+      }, 1000)
+      
+      return () => clearTimeout(timer)
+    } else {
+      setCompleted(false)
+    }
+  }, [currentCardIndex, cards.length])
   
   // Define handlers using useCallback to maintain reference stability
   const handleDragStart = useCallback((e) => {
@@ -77,18 +69,15 @@ function App() {
     const now = Date.now()
     const elapsed = now - lastTime.current
     if (elapsed > 0) {
-      // pixels per millisecond
       velocity.current = (currentX - lastX.current) / elapsed + 100
     }
     lastX.current = currentX
     lastTime.current = now
     
-    // Significantly reduce the scroll multiplier to match hand movement
     const scrollMultiplier = 0.3
     const translate = prevTranslate + (diff * scrollMultiplier) 
     
-    // Adjusted for card width + gap
-    const cardWidthWithGap = 100 // This represents 100% of container width
+    const cardWidthWithGap = 100
     const maxTranslate = 0
     const minTranslate = -(cards.length - 1) * cardWidthWithGap
     
@@ -112,35 +101,21 @@ function App() {
     setIsDragging(false)
     document.body.classList.remove('dragging')
     
-    // Define card width and gap dimensions
-    const cardWidth = 100; // Each card is 100% of container width
-    
-    // Calculate the current offset position with gaps considered
-    // Ensure we're using a consistent measurement that includes gaps
+    const cardWidth = 100;
     const currentPosition = -currentTranslate / cardWidth;
-    
-    // Calculate the target index based on current position and direction
     let targetIndex = currentCardIndex;
-    
-    // Set a direction threshold - how much movement is needed to trigger a card change
-    const moveThreshold = 0.15; // 15% movement needed to snap to next/prev
-    
-    // Determine movement direction and target
-    const positionDiff = currentPosition - currentCardIndex ;
+    const moveThreshold = 0.15;
+    const positionDiff = currentPosition - currentCardIndex;
     
     if (positionDiff > moveThreshold) {
-      // Moving left - go to next card
       targetIndex = Math.min(cards.length - 1, currentCardIndex + 1);
     } else if (positionDiff < -moveThreshold) {
-      // Moving right - go to previous card
       targetIndex = Math.max(0, currentCardIndex - 1);
     }
     
-    // Ensure we stay within bounds
     targetIndex = Math.min(Math.max(0, targetIndex), cards.length - 1);
     setCurrentCardIndex(targetIndex);
     
-    // Calculate the exact pixel position with gaps for smooth animation
     const newTranslate = -targetIndex * cardWidth;
     setPrevTranslate(newTranslate);
     setCurrentTranslate(newTranslate);
@@ -154,27 +129,19 @@ function App() {
   // Add global event listeners for dragging outside the card
   useEffect(() => {
     const handleGlobalMouseMove = (e) => {
-      if (isDragging) {
-        handleDragMove(e)
-      }
+      if (isDragging) handleDragMove(e)
     }
     
-    const handleGlobalMouseUp = (e) => {
-      if (isDragging) {
-        handleDragEnd()
-      }
+    const handleGlobalMouseUp = () => {
+      if (isDragging) handleDragEnd()
     }
     
     const handleGlobalTouchMove = (e) => {
-      if (isDragging) {
-        handleDragMove(e)
-      }
+      if (isDragging) handleDragMove(e)
     }
     
-    const handleGlobalTouchEnd = (e) => {
-      if (isDragging) {
-        handleDragEnd()
-      }
+    const handleGlobalTouchEnd = () => {
+      if (isDragging) handleDragEnd()
     }
     
     window.addEventListener('mousemove', handleGlobalMouseMove)
@@ -201,12 +168,17 @@ function App() {
       sliderRef.current.style.transform = `translateX(${newTranslate}%)`
     }
   }
-  
-  // Update transform when current card index changes via dots
-  useEffect(() => {
-    setPrevTranslate(-currentCardIndex * 100)
-    setCurrentTranslate(-currentCardIndex * 100)
-  }, [currentCardIndex])
+
+  const resetCards = () => {
+    setCurrentCardIndex(0)
+    setPrevTranslate(0)
+    setCurrentTranslate(0)
+    if (sliderRef.current) {
+      sliderRef.current.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)'
+      sliderRef.current.style.transform = 'translateX(0%)'
+    }
+    setCompleted(false)
+  }
   
   return (
     <div className='main-page-wrapper'>
@@ -219,25 +191,33 @@ function App() {
           onTouchStart={handleDragStart}
         >
           {cards.map((card, index) => (
-            <div 
-              key={index} 
-              className={`card ${isDragging ? 'grabbing' : ''}`}
-            >
-              <h2>{card.title}</h2>
-              <div className='deviding-line'></div>
-              <img src={card.image} alt="emoji" />
-            </div>
+            <Card 
+              key={index}
+              title={card.title}
+              image={card.image}
+              isDragging={isDragging}
+            />
           ))}
         </div>
       </div>
-      <div className='progress-dots'>
-        {cards.map((_, index) => (
-          <div 
-            key={index} 
-            className={`dot ${index === currentCardIndex ? 'active' : ''}`}
-            onClick={() => handleDotClick(index)}
-          ></div>
-        ))}
+      
+      <div className='controls-container'>
+        <ProgressDots 
+          totalDots={cards.length}
+          activeDot={currentCardIndex}
+          onDotClick={handleDotClick}
+        />
+        
+        {completed && (
+          <div className="completion-actions">
+            <button className="restart-button" onClick={resetCards}>
+              Restart
+            </button>
+            <button className="share-button" onClick={() => alert('Share functionality coming soon!')}>
+              Share
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
