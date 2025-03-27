@@ -129,12 +129,23 @@
   pointer-events: none;
   margin-left: -30%;
 
+  .card-button {
+    background-color: #000000;
+    width: 50%;
+    margin-top: 10px;
+    height: 40px;
+    color: #FFF;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 15px;
+  }
+
 }
 
 .card.active {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-20%) scale(1);
+  transform: translateX(-20%) scale(1.02);
 }
 
 .card img {

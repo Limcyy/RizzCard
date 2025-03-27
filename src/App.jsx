@@ -196,6 +196,7 @@ function App() {
             <Card 
               key={index}
               title={card.title}
+              button={card.button}
               image={card.image}
               isDragging={isDragging && currentCardIndex === index}
               className={`card ${currentCardIndex === index ? 'active' : ''} 
