@@ -56,13 +56,13 @@
     opacity: 0; /* Start invisible */
   }
   10% {
-    opacity: 0.4; /* Fade in as it begins to rise */
+    opacity: 0.9; /* Fade in as it begins to rise */
   }
   50% {
-    opacity: 0.8; /* Peak brightness as it crosses the middle */
+    opacity: 1; /* Peak brightness as it crosses the middle */
   }
   90% {
-    opacity: 0.4; /* Start to fade out near the top */
+    opacity: 0.9; /* Start to fade out near the top */
   }
   100% {
     transform: translate(-10%, -100%); /* End above the card */
@@ -94,7 +94,7 @@
 /* Only show and animate the shine on the active card */
 .card.active .card-shine {
   opacity: 1; /* Make visible */
-  animation: shineEffect 4s ease-in-out infinite;
+  animation: shineEffect 3s ease-in-out infinite;
   animation-delay: 2s; /* Wait 2 seconds before starting */
 }
 
@@ -127,12 +127,14 @@
   transition: opacity 0.3s ease, transform 0.3s ease;
   opacity: 0;
   pointer-events: none;
+  margin-left: -10%;
+
 }
 
 .card.active {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-50%) scale(1);
+  transform: translateX(-40%) scale(1);
 }
 
 .card img {
