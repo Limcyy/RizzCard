@@ -28,6 +28,7 @@
   align-items: center;
   justify-content: center;
   perspective: 1000px;
+  background-color: #ffffff;
   cursor: default;
 }
 
@@ -41,16 +42,17 @@
   width: 40px;
   pointer-events: none; /* Allow clicks to pass through */
   z-index: 10;
+  background-color: #ffffff;
 }
 
 .card-container::before {
   left: -10px;
-  background: linear-gradient(to right, rgba(255, 255, 255, 1) 40%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
 .card-container::after {
   right: -10px;
-  background: linear-gradient(to left, rgba(255, 255, 255, 1) 40%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
 .card-slider {
