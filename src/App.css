@@ -3,6 +3,7 @@
   height: 100vh;
   border: 1px solid #ff0000;
   overflow: hidden;
+  background-color: #FFF;
 }
 
 .main-page-wrapper {
