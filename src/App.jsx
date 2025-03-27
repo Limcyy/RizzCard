@@ -2,6 +2,7 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import './App.css'
 import shyEmoji from './assets/shy-emoji.png'
 import cardBg from './assets/card-bg.png'
+import cardShine from './assets/card-shine.png'
 
 function App() {
   // Define cards directly rather than using undefined defaultCards
@@ -34,6 +35,7 @@ function App() {
   const [startX, setStartX] = useState(0)
   const [currentTranslate, setCurrentTranslate] = useState(0)
   const [prevTranslate, setPrevTranslate] = useState(0)
+  const [completed, setCompleted] = useState(false)
   const sliderRef = useRef(null)
   
   // For velocity tracking
@@ -51,17 +53,18 @@ function App() {
     }
   }, [])
 
-  // Update initial position for the first slide
+  // Check if user has reached the last card
   useEffect(() => {
-    // Set initial position to show the first card
-    const initialTranslate = 0;
-    setPrevTranslate(initialTranslate);
-    setCurrentTranslate(initialTranslate);
-    
-    if (sliderRef.current) {
-      sliderRef.current.style.transform = `translateX(${initialTranslate}%)`;
+    if (currentCardIndex === cards.length - 1) {
+      const timer = setTimeout(() => {
+        setCompleted(true)
+      }, 1000)
+      
+      return () => clearTimeout(timer)
+    } else {
+      setCompleted(false)
     }
-  }, []);
+  }, [currentCardIndex, cards.length])
   
   // Define handlers using useCallback to maintain reference stability
   const handleDragStart = useCallback((e) => {
@@ -118,6 +121,25 @@ function App() {
     }
   }, [isDragging, startX, prevTranslate, cards.length])
   
+  // Update initial position for the first slide
+  useEffect(() => {
+    // Set initial position to show the first card
+    const initialTranslate = 0; // Changed from 100 to 0 to make first card visible
+    setPrevTranslate(initialTranslate);
+    setCurrentTranslate(initialTranslate);
+    
+    if (sliderRef.current) {
+      sliderRef.current.style.transform = `translateX(${initialTranslate}%)`;
+    }
+  }, []);
+
+  // Update transform when current card index changes via dots
+  useEffect(() => {
+    const newTranslate = -currentCardIndex * 100; // Removed the +100 offset
+    setPrevTranslate(newTranslate);
+    setCurrentTranslate(newTranslate);
+  }, [currentCardIndex]);
+  
   const handleDragEnd = useCallback(() => {
     if (!isDragging) return
     
@@ -127,7 +149,7 @@ function App() {
     // Exactly 100% width per card position
     const cardWidth = 100
     
-    // Calculate target index based on current position
+    // Calculate target index based on current position - remove the 100 offset
     const normalizedPosition = -currentTranslate / cardWidth
     
     // Direction-based snapping with threshold
@@ -149,7 +171,7 @@ function App() {
     targetIndex = Math.min(Math.max(0, targetIndex), cards.length - 1)
     setCurrentCardIndex(targetIndex)
     
-    // Calculate exact snap position
+    // Calculate exact snap position without the +100 offset
     const newTranslate = -targetIndex * cardWidth
     setPrevTranslate(newTranslate)
     setCurrentTranslate(newTranslate)
@@ -201,7 +223,7 @@ function App() {
   
   const handleDotClick = (index) => {
     setCurrentCardIndex(index)
-    const newTranslate = -index * 100
+    const newTranslate = -index * 100  // Removed the +100 offset
     setPrevTranslate(newTranslate)
     setCurrentTranslate(newTranslate)
     
@@ -211,12 +233,18 @@ function App() {
     }
   }
   
-  // Update transform when current card index changes via dots
-  useEffect(() => {
-    const newTranslate = -currentCardIndex * 100
+  const resetCards = () => {
+    setCurrentCardIndex(0)
+    const newTranslate = 100 // First card position with offset
     setPrevTranslate(newTranslate)
     setCurrentTranslate(newTranslate)
-  }, [currentCardIndex])
+    setCompleted(false)
+    
+    if (sliderRef.current) {
+      sliderRef.current.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)'
+      sliderRef.current.style.transform = `translateX(${newTranslate}%)`
+    }
+  }
   
   return (
     <div className='main-page-wrapper'>
@@ -233,22 +261,28 @@ function App() {
               key={index} 
               className={`card ${isDragging ? 'grabbing' : ''}`}
             >
+              
               <h2>{card.title}</h2>
               <div className='deviding-line'></div>
               <img src={card.image} alt="emoji" />
+
             </div>
           ))}
         </div>
       </div>
       
-      <div className='progress-dots'>
-        {cards.map((_, index) => (
-          <div 
-            key={index} 
-            className={`dot ${index === currentCardIndex ? 'active' : ''}`}
-            onClick={() => handleDotClick(index)}
-          ></div>
-        ))}
+      <div className='controls-container'>
+        <div className='progress-dots'>
+          {cards.map((_, index) => (
+            <div 
+              key={index} 
+              className={`dot ${index === currentCardIndex ? 'active' : ''}`}
+              onClick={() => handleDotClick(index)}
+            ></div>
+          ))}
+        </div>
+        
+      
       </div>
     </div>
   )
