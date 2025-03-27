@@ -10,8 +10,6 @@ function App() {
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
-  const [currentTranslate, setCurrentTranslate] = useState(0)
-  const [prevTranslate, setPrevTranslate] = useState(0)
   const [completed, setCompleted] = useState(false)
   const sliderRef = useRef(null)
   

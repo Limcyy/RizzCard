@@ -1,4 +1,9 @@
 import shyEmoji from '../assets/shy-emoji.png'
+import formalCat from '../assets/formal-cat.png'
+import cuteCat from '../assets/cute-cat.png'
+import sleepingCat from '../assets/sleeping-cat.png'
+import cookCat from '../assets/cook-cat.png'
+import workOutCat from '../assets/work-out-cat.png'
 
 export const defaultCards = [
   {
@@ -6,19 +11,25 @@ export const defaultCards = [
     image: shyEmoji
   },
   {
-    title: "I think you're really cool and I'd like to get to know you better...",
-    image: shyEmoji
+    title: "And im def gonna need the card back so we better meet up again",
+    image: formalCat
   },
   {
-    title: "Maybe we could hang out sometime?",
-    image: shyEmoji
+    title: "Maybe you would like to know a little something about me....",
+    image: cuteCat
   },
   {
-    title: "I'd really like that!",
-    image: shyEmoji
+    title: "sometimes i sleep(usually at night)",
+    image: sleepingCat
   },
   {
-    title: "What do you say?",
-    image: shyEmoji
+    title: "i can cook for you ;)",
+    image: cookCat
+  },
+  {
+    title: "I work out",
+    image: workOutCat
   }
+
+
 ]

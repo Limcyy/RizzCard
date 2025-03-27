@@ -1,7 +1,7 @@
 .progress-dots {
   display: flex;
   gap: 12px;
-  margin-top: 10px;
+  margin-top: 24px;
   position: relative;
   
 }
