@@ -91,7 +91,7 @@ function App() {
       const activeCard = sliderRef.current.querySelector('.card.active');
       if (activeCard) {
         // Calculate rotation and translation exactly based on drag distance
-        const rotation = diff * 0.1; // Simple rotation factor
+        const rotation = diff * 0.05; // Simple rotation factor
         const translateX = diff * 0.5; // Add some horizontal movement
         const opacity = Math.max(1 - Math.abs(diff) / 200, 0.3); // Fade out as swiped
         
