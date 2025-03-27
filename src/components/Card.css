@@ -49,29 +49,57 @@
   gap: 15px;
 }
 
+/* Define the shine animation keyframes - upward motion only */
+@keyframes shineEffect {
+  0% {
+    transform: translate(-10%, 100%); /* Start below the card */
+    opacity: 0; /* Start invisible */
+  }
+  10% {
+    opacity: 0.4; /* Fade in as it begins to rise */
+  }
+  50% {
+    opacity: 0.8; /* Peak brightness as it crosses the middle */
+  }
+  90% {
+    opacity: 0.4; /* Start to fade out near the top */
+  }
+  100% {
+    transform: translate(-10%, -100%); /* End above the card */
+    opacity: 0; /* End invisible */
+  }
+}
+
+/* By default, hide the shine on all cards */
 .card-shine {
+  opacity: 0; /* Hide by default */
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 10000; /* Extremely high z-index to ensure it's on top */
+  z-index: 10000;
   object-fit: cover;
-  border-radius: 2.91863rem; /* Match the card's border radius */
+  border-radius: 2.91863rem;
   pointer-events: none;
-  width: 120%; /* Make it 120% of the container width to ensure coverage */
-  height: 110%; /* Make it 110% of the container height to ensure coverage */
-  transform: translate(-10%, -5%); /* Center the oversized image */
-  
-  /* These properties help force the image to display at its set size */
+  width: 120%;
+  height: 110%;
   max-width: none;
-  overflow: hidden;
   max-height: none;
-  min-width: 120%;
+  min-width: 100%;
   min-height: 110%;
+  filter: brightness(1.1) contrast(1.1);
+}
+
+/* Only show and animate the shine on the active card */
+.card.active .card-shine {
+  opacity: 1; /* Make visible */
+  animation: shineEffect 4s ease-in-out infinite;
+  animation-delay: 2s; /* Wait 2 seconds before starting */
 }
 
 .card {
+  margin-top: -40px;
   position: absolute; /* Make cards position absolute */
   left: 50%; /* Position from center */
   transform: translateX(-50%); /* Center the card */
