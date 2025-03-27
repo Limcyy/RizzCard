@@ -10,22 +10,23 @@
   perspective: 1000px;
   background-color: #ffffff;
   cursor: default;
+  margin: 0 auto; /* Center the container */
 }
 
 /* Add side fades */
-.card-container::before,
+/* .card-container::before,
 .card-container::after {
   content: '';
   position: absolute;
   top: 0;
   height: 100vh;
   width: 40px;
-  pointer-events: none; /* Allow clicks to pass through */
+  pointer-events: none;
   z-index: 10;
   background-color: #ffffff;
-}
+} */
 
-.card-container::before {
+/* .card-container::before {
   left: -10px;
   background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
 }
@@ -33,7 +34,7 @@
 .card-container::after {
   right: -10px;
   background: linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
-}
+} */
 
 .card-slider {
   display: flex;
@@ -43,13 +44,15 @@
   will-change: transform;
   user-select: none;
   align-items: center;
+  justify-content: center; /* Center the cards in the slider */
   gap: 15px;
 }
 
 .card {
-  flex: 0 0 calc(100% - 40px);
-  margin: 0 10px;
-  height: auto;
+  position: absolute; /* Make cards position absolute */
+  left: 50%; /* Position from center */
+  transform: translateX(-50%); /* Center the card */
+  width: calc(100% - 40px); /* Width adjusted from flex basis */
   height: 90%;
   aspect-ratio: 344/650;
   display: flex;
@@ -59,9 +62,8 @@
   border-radius: 2.91863rem;
   border: 3.451px solid #FFA5A6;
   background: #FFF;
-  box-shadow: 0px 0px 7.476px 4.601px #FFF2F3;
   background-image: var(--card-bg-image);
-  background-size: cover;
+  background-size: 100% 100%; /* Changed to stretch to fill card exactly */
   background-position: center;
   background-repeat: no-repeat;
   gap: 15px;
@@ -70,6 +72,15 @@
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) scale(1);
 }
 
 .card img {

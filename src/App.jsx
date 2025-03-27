@@ -54,10 +54,6 @@ function App() {
     lastTime.current = Date.now()
     velocity.current = 0
     
-    if (sliderRef.current) {
-      sliderRef.current.style.transition = 'none'
-    }
-    
     // Prevent default to avoid text selection during drag
     e.preventDefault()
   }, [])
@@ -77,45 +73,11 @@ function App() {
     lastX.current = currentX
     lastTime.current = now
     
-    const scrollMultiplier = 0.3
-    const translate = prevTranslate + (diff * scrollMultiplier)
-    
-    const cardWidthWithGap = 100
-    const maxTranslate = 0
-    const minTranslate = -(cards.length - 1) * cardWidthWithGap
-    
-    let boundedTranslate = translate
-    if (translate > maxTranslate) {
-      boundedTranslate = maxTranslate + (translate - maxTranslate) * 0.05
-    } else if (translate < minTranslate) {
-      boundedTranslate = minTranslate + (translate - minTranslate) * 0.05
+    // If drag distance is significant, we'll handle it in drag end
+    if (Math.abs(diff) > 50) {
+      // Just track for drag end
     }
-    
-    setCurrentTranslate(boundedTranslate)
-    
-    if (sliderRef.current) {
-      sliderRef.current.style.transform = `translateX(${boundedTranslate}%)`
-    }
-  }, [isDragging, startX, prevTranslate, cards.length])
-  
-  // Update initial position for the first slide
-  useEffect(() => {
-    // Set initial position to show the first card
-    const initialTranslate = 0; // Changed from 100 to 0 to make first card visible
-    setPrevTranslate(initialTranslate);
-    setCurrentTranslate(initialTranslate);
-    
-    if (sliderRef.current) {
-      sliderRef.current.style.transform = `translateX(${initialTranslate}%)`;
-    }
-  }, []);
-
-  // Update transform when current card index changes via dots
-  useEffect(() => {
-    const newTranslate = -currentCardIndex * 100; // Removed the +100 offset
-    setPrevTranslate(newTranslate);
-    setCurrentTranslate(newTranslate);
-  }, [currentCardIndex]);
+  }, [isDragging, startX])
   
   const handleDragEnd = useCallback(() => {
     if (!isDragging) return
@@ -123,41 +85,24 @@ function App() {
     setIsDragging(false)
     document.body.classList.remove('dragging')
     
-    // Exactly 100% width per card position
-    const cardWidth = 100
+    const diff = lastX.current - startX
     
-    // Calculate target index based on current position - remove the 100 offset
-    const normalizedPosition = -currentTranslate / cardWidth
+    // Direction-based navigation
+    const moveThreshold = 50
     
-    // Direction-based snapping with threshold
-    const moveThreshold = 0.15
-    
-    let targetIndex
-    if (normalizedPosition > currentCardIndex + moveThreshold) {
+    let targetIndex = currentCardIndex
+    if (diff < -moveThreshold) {
       // Moving left (to next card)
-      targetIndex = currentCardIndex + 1
-    } else if (normalizedPosition < currentCardIndex - moveThreshold) {
+      targetIndex = Math.min(currentCardIndex + 1, cards.length - 1)
+    } else if (diff > moveThreshold) {
       // Moving right (to previous card)
-      targetIndex = currentCardIndex - 1
-    } else {
-      // Not enough movement, snap back
-      targetIndex = currentCardIndex
+      targetIndex = Math.max(currentCardIndex - 1, 0)
     }
     
-    // Ensure we stay within bounds
-    targetIndex = Math.min(Math.max(0, targetIndex), cards.length - 1)
+    // Move to target card
     setCurrentCardIndex(targetIndex)
     
-    // Calculate exact snap position without the +100 offset
-    const newTranslate = -targetIndex * cardWidth
-    setPrevTranslate(newTranslate)
-    setCurrentTranslate(newTranslate)
-    
-    if (sliderRef.current) {
-      sliderRef.current.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)'
-      sliderRef.current.style.transform = `translateX(${newTranslate}%)`
-    }
-  }, [isDragging, currentTranslate, currentCardIndex, cards.length])
+  }, [isDragging, startX, currentCardIndex, cards.length])
   
   // Add global event listeners for dragging outside the card
   useEffect(() => {
@@ -200,27 +145,6 @@ function App() {
   
   const handleDotClick = (index) => {
     setCurrentCardIndex(index)
-    const newTranslate = -index * 100  // Removed the +100 offset
-    setPrevTranslate(newTranslate)
-    setCurrentTranslate(newTranslate)
-    
-    if (sliderRef.current) {
-      sliderRef.current.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)'
-      sliderRef.current.style.transform = `translateX(${newTranslate}%)`
-    }
-  }
-  
-  const resetCards = () => {
-    setCurrentCardIndex(0)
-    const newTranslate = 100 // First card position with offset
-    setPrevTranslate(newTranslate)
-    setCurrentTranslate(newTranslate)
-    setCompleted(false)
-    
-    if (sliderRef.current) {
-      sliderRef.current.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)'
-      sliderRef.current.style.transform = `translateX(${newTranslate}%)`
-    }
   }
   
   return (
@@ -229,7 +153,6 @@ function App() {
         <div 
           ref={sliderRef}
           className='card-slider'
-          style={{ transform: `translateX(${-currentCardIndex * 100}%)` }}
           onMouseDown={handleDragStart}
           onTouchStart={handleDragStart}
         >
@@ -238,7 +161,8 @@ function App() {
               key={index}
               title={card.title}
               image={card.image}
-              isDragging={isDragging}
+              isDragging={isDragging && currentCardIndex === index}
+              className={`card ${currentCardIndex === index ? 'active' : ''}`}
             />
           ))}
         </div>
