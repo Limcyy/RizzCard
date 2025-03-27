@@ -1,8 +1,9 @@
 .card-container {
   width: 100%;
   max-width: 350px;
-  height: 100vh;
-  overflow: hidden;
+  height: 90%;
+  max-height: 700px;
+  overflow: visible;
   position: relative;
   display: flex;
   align-items: center;
@@ -114,4 +115,11 @@ body.dragging {
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
+}
+
+/* Next card - peeking out to the right with 50% opacity */
+.card.next {
+  opacity: 0.5;  /* Changed from 0.8 to 0.5 as requested */
+  transform: translateX(0%); /* Move 30% to the right */
+  z-index: 1;
 }
