@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import './Card.css'
 
 function Card({ title, image, isDragging }) {
   return (

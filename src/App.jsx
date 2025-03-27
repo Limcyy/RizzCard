@@ -1,34 +1,11 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import './App.css'
-import shyEmoji from './assets/shy-emoji.png'
+import Card from './components/Card'
+import ProgressDots from './components/ProgressDots'
+import { defaultCards } from './data/cardData'
 import cardBg from './assets/card-bg.png'
-import cardShine from './assets/card-shine.png'
 
 function App() {
-  // Define cards directly rather than using undefined defaultCards
-  const defaultCards = [
-    {
-      title: "Hey, I was basically too scared to talk to you, so I just gave you this card..",
-      image: shyEmoji
-    },
-    {
-      title: "I think you're really cool and I'd like to get to know you better...",
-      image: shyEmoji
-    },
-    {
-      title: "Maybe we could hang out sometime?",
-      image: shyEmoji
-    },
-    {
-      title: "I'd really like that!",
-      image: shyEmoji
-    },
-    {
-      title: "What do you say?",
-      image: shyEmoji
-    }
-  ];
-  
   const [cards, setCards] = useState(defaultCards)
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
@@ -257,32 +234,22 @@ function App() {
           onTouchStart={handleDragStart}
         >
           {cards.map((card, index) => (
-            <div 
-              key={index} 
-              className={`card ${isDragging ? 'grabbing' : ''}`}
-            >
-              
-              <h2>{card.title}</h2>
-              <div className='deviding-line'></div>
-              <img src={card.image} alt="emoji" />
-
-            </div>
+            <Card 
+              key={index}
+              title={card.title}
+              image={card.image}
+              isDragging={isDragging}
+            />
           ))}
         </div>
       </div>
       
       <div className='controls-container'>
-        <div className='progress-dots'>
-          {cards.map((_, index) => (
-            <div 
-              key={index} 
-              className={`dot ${index === currentCardIndex ? 'active' : ''}`}
-              onClick={() => handleDotClick(index)}
-            ></div>
-          ))}
-        </div>
-        
-      
+        <ProgressDots 
+          totalDots={cards.length}
+          activeDot={currentCardIndex}
+          onDotClick={handleDotClick}
+        />
       </div>
     </div>
   )
