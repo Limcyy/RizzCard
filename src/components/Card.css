@@ -53,7 +53,7 @@
 /* Define the shine animation keyframes - upward motion only */
 @keyframes shineEffect {
   0% {
-    transform: translate(-10%, 100%); /* Start below the card */
+    transform: translate(0%, 100%); /* Start below the card */
     opacity: 0; /* Start invisible */
   }
   10% {
@@ -66,7 +66,7 @@
     opacity: 0.9; /* Start to fade out near the top */
   }
   100% {
-    transform: translate(-10%, -100%); /* End above the card */
+    transform: translate(0%, -100%); /* End above the card */
     opacity: 0; /* End invisible */
   }
 }
@@ -115,7 +115,7 @@
   border-radius: 2.91863rem;
   border: 3.451px solid #FFA5A6;
   background: #FFF;
-  background-image: var(--card-bg-image);
+  background-image: url('../assets/card-bg.png');
   background-size: 100% 100%; /* Changed to stretch to fill card exactly */
   background-position: center;
   background-repeat: no-repeat;
@@ -153,6 +153,11 @@
   width: 60%;
   max-width: 200px;
   margin-top: 14px;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .card h2 {
