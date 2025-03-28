@@ -6,17 +6,23 @@
   <title>RizzCard</title>
   <link rel="stylesheet" href="styles/global.css">
   <script type="text/javascript">
-    // Single page apps for GitHub Pages
-    // MIT License
-    // https://github.com/rafgraph/spa-github-pages
+    // Handle GitHub Pages SPA routing
     (function(l) {
-      if (l.search[1] === '/' ) {
-        var decoded = l.search.slice(1).split('&').map(function(s) { 
-          return s.replace(/~and~/g, '&')
-        }).join('?');
-        window.history.replaceState(null, null,
-          l.pathname.slice(0, -1) + decoded + l.hash
-        );
+      if (l.search.includes('?pathname=')) {
+        var params = l.search.substring(1).split('&');
+        var pathname = '';
+        
+        for (var i = 0; i < params.length; i++) {
+          var param = params[i].split('=');
+          if (param[0] === 'pathname') {
+            pathname = decodeURIComponent(param[1]);
+            break;
+          }
+        }
+        
+        if (pathname) {
+          window.history.replaceState(null, null, '/RizzCard' + pathname);
+        }
       }
     }(window.location))
   </script>
