@@ -23,7 +23,7 @@ Card.propTypes = {
 }
 
 function handleButtonClick() {
-  window.open('https://www.instagram.com');
+  window.open('https://www.instagram.com/_adam_rana_?igsh=Y2lndjEycnQ1bGVv&utm_source=qr');
 }
 
 export default Card
