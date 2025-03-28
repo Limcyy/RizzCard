@@ -12,7 +12,7 @@ function App() {
         {/* Routes for each person's cards */}
         <Route path="/AdamCard" element={<CardDisplay personName="Adam" />} />
         <Route path="/KrystofCard" element={<CardDisplay personName="Krystof" />} />
-        
+        <Route path="/FilipCard" element={<CardDisplay personName="Filip" />} />
         {/* Add more routes for other people as needed */}
         
         {/* Catch-all route for unknown paths */}

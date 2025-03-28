@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import Card from './Card'
 import ProgressDots from './ProgressDots'
-import { AdamCards, KrystofCards } from '../data/cardData.js'
+import { AdamCards, KrystofCards, FilipCards } from '../data/cardData.js'
 import './Card.css'
 
 function CardDisplay({ personName }) {
@@ -13,6 +13,8 @@ function CardDisplay({ personName }) {
         return AdamCards
       case 'Krystof':
         return KrystofCards
+      case 'Filip':
+        return FilipCards
       // Add cases for other people
       default:
         return AdamCards // Fallback to Adam's cards

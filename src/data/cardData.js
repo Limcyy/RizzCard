@@ -47,7 +47,7 @@ export const AdamCards = [
 
 export const KrystofCards = [
   {
-    title: "sdsdsd",
+    title: "Ahoj jsem Krys",
     image: shyEmoji,
     button: "null"
   },
@@ -83,3 +83,45 @@ export const KrystofCards = [
     link: "https://www.instagram.com/_adam_rana_?igsh=Y2lndjEycnQ1bGVv&utm_source=qr"
   }
 ]
+
+
+
+export const FilipCards = [
+  {
+    title: "Ahoj jsem Fílda",
+    image: shyEmoji,
+    button: "null"
+  },
+  {
+    title: "And im def gonna need the card back so we better meet up again",
+    image: formalCat,
+    button: "null"
+  },
+  {
+    title: "Maybe you would like to know a little something about me....",
+    image: cuteCat,
+    button: "null"
+  },
+  {
+    title: "sometimes i sleep(usually at night)",
+    image: sleepingCat,
+    button: "null"
+  },
+  {
+    title: "i can cook for you ;)",
+    image: cookCat,
+    button: "null"
+  },
+  {
+    title: "I work out",
+    image: workOutCat,
+    button: "null"
+  },
+  {
+    title: "And yeahhh, please text me",
+    image: workOutCat,
+    button: "instagram",
+    link: "https://www.instagram.com/_adam_rana_?igsh=Y2lndjEycnQ1bGVv&utm_source=qr"
+  }
+]
+
