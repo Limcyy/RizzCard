@@ -4,22 +4,24 @@
   <meta charset="utf-8">
   <title>RizzCard</title>
   <script type="text/javascript">
-    // Single page apps for GitHub Pages
-    // MIT License
-    // https://github.com/rafgraph/spa-github-pages
-    var segmentCount = 1; // Keeps the /RizzCard/ part
-
-    var l = window.location;
-    l.replace(
-      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-      '/RizzCard/' + // Hardcode the RizzCard base path
-      '?pathname=' + // Use a different query parameter format
-      l.pathname.slice(l.pathname.indexOf('/RizzCard') + 9) + // Remove the /RizzCard prefix
-      (l.search ? '&' + l.search.slice(1) : '') +
-      l.hash
-    );
+    // Simple spa-github-pages script
+    var pathSegmentsToKeep = 0;
+    var location = window.location;
+    
+    // Extract the route after /RizzCard/
+    var route = location.pathname.split('/').filter(function(p) {
+      return p !== "" && p !== "RizzCard";
+    }).join('/');
+    
+    // Redirect to the base URL with the route as a hash
+    window.location.href = 
+      location.protocol + '//' + location.hostname + 
+      (location.port ? ':' + location.port : '') +
+      '/RizzCard/#/' + route +
+      (location.search ? location.search : '');
   </script>
 </head>
 <body>
+  <p>Redirecting...</p>
 </body>
 </html> 
