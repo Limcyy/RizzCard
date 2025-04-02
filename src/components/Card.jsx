@@ -5,9 +5,7 @@ import cardShine from '../assets/card-shine.png'
 function Card({ title, image, isDragging, className, button, link }) {
   const handleButtonClick = () => {
     console.log(link)
-    if (link) {
       window.open(link, '_blank')
-    }
   }
 
   // Prevent default drag behavior for images
