@@ -3,11 +3,6 @@ import './Card.css'
 import cardShine from '../assets/card-shine.png'
 
 function Card({ title, image, isDragging, className, button, link }) {
-  const handleButtonClick = () => {
-    console.log(link)
-      window.open(link, '_blank')
-  }
-
   // Prevent default drag behavior for images
   const preventDrag = (e) => {
     e.preventDefault()
@@ -32,12 +27,14 @@ function Card({ title, image, isDragging, className, button, link }) {
         onDragStart={preventDrag}
       />
       {button && button !== "null" && (
-        <button 
-          onClick={handleButtonClick} 
+        <a 
+          href={link} 
+          target="_blank" 
+          rel="noopener noreferrer" 
           className='card-button'
         >
           {button}
-        </button>
+        </a>
       )}
     </div>
   )

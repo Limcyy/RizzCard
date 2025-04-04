@@ -135,10 +135,24 @@
     width: 50%;
     margin-top: 10px;
     height: 40px;
-    color: #FFF;
+    color: #FFF !important;
     font-size: 0.8rem;
     font-weight: 700;
     border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .card-button:hover {
+    opacity: 0.9;
+  }
+
+  .card-button:active {
+    transform: scale(0.98);
   }
 
 }
