@@ -1,55 +1,59 @@
 import PropTypes from 'prop-types'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './Card.css'
 import cardShine from '../assets/card-shine.png'
 
 function Card({ title, image, isDragging, className, button, link }) {
-  const [showInfo, setShowInfo] = useState(false);
-  const [copyStatus, setCopyStatus] = useState('');
+  const [touched, setTouched] = useState(false);
   
   // Prevent default drag behavior for images
   const preventDrag = (e) => {
-    e.preventDefault()
-    return false
+    e.preventDefault();
+    return false;
   }
 
-  // Handle copying username to clipboard
-  const copyToClipboard = () => {
-    const username = '_adam_rana_';
+  // Handle direct navigation attempt
+  const handleDirectTouch = (e) => {
+    e.stopPropagation(); // Stop event bubbling
     
+    // Set touched state to show visual feedback
+    setTouched(true);
+    
+    // Try multiple approaches in sequence
     try {
-      navigator.clipboard.writeText(username).then(() => {
-        setCopyStatus('Username copied! Now open Instagram and search for it.');
-        setTimeout(() => setCopyStatus(''), 3000);
-      }).catch(err => {
-        setCopyStatus('Failed to copy. Please manually type: _adam_rana_');
-        console.error('Copy failed: ', err);
-      });
+      // Method 1: Direct location change
+      window.location.href = 'https://instagram.com/_adam_rana_';
+      
+      // Method 2: Timeout fallback (if method 1 fails)
+      setTimeout(() => {
+        window.open('https://instagram.com/_adam_rana_', '_system');
+      }, 100);
+      
+      // Method 3: Last resort
+      setTimeout(() => {
+        const link = document.createElement('a');
+        link.href = 'https://instagram.com/_adam_rana_';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.click();
+      }, 200);
     } catch (err) {
-      setCopyStatus('Failed to copy. Please manually type: _adam_rana_');
-      console.error('Copy failed: ', err);
+      console.error('Navigation failed:', err);
     }
+    
+    // Reset touched state after 2 seconds
+    setTimeout(() => {
+      setTouched(false);
+    }, 2000);
   };
-  
+
   return (
     <div className={`card ${isDragging ? 'grabbing' : ''} ${className || ''}`}>
-      {showInfo && (
-        <div className="instagram-overlay">
-          <div className="overlay-content">
-            <p className="insta-header">Find me on Instagram</p>
-            <p className="insta-handle">@_adam_rana_</p>
-            
-            {copyStatus && <p className="copy-status">{copyStatus}</p>}
-            
-            <div className="insta-buttons">
-              <button onClick={copyToClipboard} className="copy-button">
-                Copy Username
-              </button>
-              <button onClick={() => setShowInfo(false)} className="close-button">
-                Close
-              </button>
-            </div>
-          </div>
+      {touched && (
+        <div className="touch-indicator">
+          Opening Instagram...
+          <br/>
+          If nothing happens, search for @_adam_rana_
         </div>
       )}
       
@@ -69,12 +73,14 @@ function Card({ title, image, isDragging, className, button, link }) {
         onDragStart={preventDrag}
       />
       {button && button !== "null" && (
-        <button 
+        <div 
           className='card-button'
-          onClick={() => setShowInfo(true)}
+          onClick={handleDirectTouch}
+          onTouchStart={handleDirectTouch}
+          style={{userSelect: 'none'}}
         >
           {button}
-        </button>
+        </div>
       )}
     </div>
   )
