@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { useState } from 'react'
 import './Card.css'
 import cardShine from '../assets/card-shine.png'
 
@@ -8,6 +9,8 @@ function Card({ title, image, isDragging, className, button, link }) {
     e.preventDefault()
     return false
   }
+
+  const [count, setCount] = useState(0)
 
   return (
     <div className={`card ${isDragging ? 'grabbing' : ''} ${className || ''}`}>
@@ -19,6 +22,7 @@ function Card({ title, image, isDragging, className, button, link }) {
         onDragStart={preventDrag}
       />
       <h2>{title}</h2>
+      <p>count: {count}</p>
       <div className='deviding-line'></div>
       <img 
         src={image} 
@@ -28,6 +32,7 @@ function Card({ title, image, isDragging, className, button, link }) {
       />
       {button && button !== "null" && (
         <a 
+          onClick={() => setCount(count + 1)}
           href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" 
           target="_blank" 
           rel="noopener noreferrer" 
