@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './Card.css'
 import cardShine from '../assets/card-shine.png'
 
 function Card({ title, image, isDragging, className, button, link }) {
-  const [showInstructions, setShowInstructions] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
+  const [copyStatus, setCopyStatus] = useState('');
   
   // Prevent default drag behavior for images
   const preventDrag = (e) => {
@@ -12,18 +13,43 @@ function Card({ title, image, isDragging, className, button, link }) {
     return false
   }
 
-  // Simply toggle instructions display
-  const toggleInstructions = () => {
-    setShowInstructions(!showInstructions);
-  }
-
+  // Handle copying username to clipboard
+  const copyToClipboard = () => {
+    const username = '_adam_rana_';
+    
+    try {
+      navigator.clipboard.writeText(username).then(() => {
+        setCopyStatus('Username copied! Now open Instagram and search for it.');
+        setTimeout(() => setCopyStatus(''), 3000);
+      }).catch(err => {
+        setCopyStatus('Failed to copy. Please manually type: _adam_rana_');
+        console.error('Copy failed: ', err);
+      });
+    } catch (err) {
+      setCopyStatus('Failed to copy. Please manually type: _adam_rana_');
+      console.error('Copy failed: ', err);
+    }
+  };
+  
   return (
     <div className={`card ${isDragging ? 'grabbing' : ''} ${className || ''}`}>
-      {/* Instructions overlay */}
-      {showInstructions && (
-        <div className="instructions-overlay">
-          <p>Find me on Instagram:</p>
-          <p style={{fontWeight: 'bold', fontSize: '16px', marginTop: '5px'}}>@_adam_rana_</p>
+      {showInfo && (
+        <div className="instagram-overlay">
+          <div className="overlay-content">
+            <p className="insta-header">Find me on Instagram</p>
+            <p className="insta-handle">@_adam_rana_</p>
+            
+            {copyStatus && <p className="copy-status">{copyStatus}</p>}
+            
+            <div className="insta-buttons">
+              <button onClick={copyToClipboard} className="copy-button">
+                Copy Username
+              </button>
+              <button onClick={() => setShowInfo(false)} className="close-button">
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       )}
       
@@ -43,22 +69,12 @@ function Card({ title, image, isDragging, className, button, link }) {
         onDragStart={preventDrag}
       />
       {button && button !== "null" && (
-        <>
-          {/* First button shows Instagram username */}
-          <button className='card-button' onClick={toggleInstructions}>
-            Show Instagram
-          </button>
-          
-          {/* Hidden link that works for direct navigation */}
-          <a 
-            href="https://instagram.com/_adam_rana_" 
-            className='instagram-link'
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Open Instagram
-          </a>
-        </>
+        <button 
+          className='card-button'
+          onClick={() => setShowInfo(true)}
+        >
+          {button}
+        </button>
       )}
     </div>
   )
