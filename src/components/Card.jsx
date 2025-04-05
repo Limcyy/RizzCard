@@ -28,7 +28,7 @@ function Card({ title, image, isDragging, className, button, link }) {
       />
       {button && button !== "null" && (
         <a 
-          href="https://www.instagram.com/_adam_rana_?igsh=Y2lndjEycnQ1bGVv&utm_source=qr" 
+          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" 
           target="_blank" 
           rel="noopener noreferrer" 
           className='card-button'
