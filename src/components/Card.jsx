@@ -10,7 +10,11 @@ function Card({ title, image, isDragging, className, button, link }) {
     return false
   }
 
-  const [count, setCount] = useState(0)
+  const handleButtonClick = () => {
+    console.log(link)
+    window.open(link, '_blank')
+  }
+
 
   return (
     <div className={`card ${isDragging ? 'grabbing' : ''} ${className || ''}`}>
@@ -22,7 +26,6 @@ function Card({ title, image, isDragging, className, button, link }) {
         onDragStart={preventDrag}
       />
       <h2>{title}</h2>
-      <p>count: {count}</p>
       <div className='deviding-line'></div>
       <img 
         src={image} 
@@ -32,8 +35,8 @@ function Card({ title, image, isDragging, className, button, link }) {
       />
       {button && button !== "null" && (
         <button 
-          onClick={() => setCount(count + 1)}
-          onTouchStart={() => setCount(count + 1)}
+          onClick={handleButtonClick}
+          onTouchStart={handleButtonClick}
           className='card-button'
         >
           {button}
