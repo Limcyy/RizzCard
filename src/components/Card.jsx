@@ -1,23 +1,38 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './Card.css'
 import cardShine from '../assets/card-shine.png'
 
 function Card({ title, image, isDragging, className, button, link }) {
+  const [debugMessage, setDebugMessage] = useState('');
+  const [showDebug, setShowDebug] = useState(false);
+  
   // Prevent default drag behavior for images
   const preventDrag = (e) => {
     e.preventDefault()
     return false
   }
 
-  const handleButtonClick = () => {
-    console.log(link)
-    window.open(link, '_blank')
+  // Function to handle debugging touch events
+  const handleTouch = () => {
+    setShowDebug(true);
+    setDebugMessage(`Touch detected at: ${new Date().toISOString()}`);
+    
+    // Hide debug after 3 seconds
+    setTimeout(() => {
+      setShowDebug(false);
+    }, 3000);
   }
-
 
   return (
     <div className={`card ${isDragging ? 'grabbing' : ''} ${className || ''}`}>
+      {/* Debug overlay */}
+      {showDebug && (
+        <div className="debug-overlay">
+          <p>{debugMessage}</p>
+        </div>
+      )}
+      
       <img 
         className='card-shine' 
         src={cardShine} 
@@ -34,13 +49,16 @@ function Card({ title, image, isDragging, className, button, link }) {
         onDragStart={preventDrag}
       />
       {button && button !== "null" && (
-        <button 
-          onClick={handleButtonClick}
-          onTouchStart={() => window.open('https://www.instagram.com/_adam_rana_?igsh=Y2lndjEycnQ1bGVv&utm_source=qr')}
+        <a 
+          href="https://www.instagram.com/_adam_rana_?igsh=Y2lndjEycnQ1bGVv&utm_source=qr"
+          target="_blank"
+          rel="noopener noreferrer"
           className='card-button'
+          onClick={handleTouch}
+          onTouchStart={handleTouch}
         >
           {button}
-        </button>
+        </a>
       )}
     </div>
   )
