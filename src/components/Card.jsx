@@ -31,15 +31,13 @@ function Card({ title, image, isDragging, className, button, link }) {
         onDragStart={preventDrag}
       />
       {button && button !== "null" && (
-        <a 
+        <button 
           onClick={() => setCount(count + 1)}
-          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" 
-          target="_blank" 
-          rel="noopener noreferrer" 
+          onTouchStart={() => setCount(count + 1)}
           className='card-button'
         >
           {button}
-        </a>
+        </button>
       )}
     </div>
   )
