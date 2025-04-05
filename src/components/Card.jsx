@@ -3,7 +3,7 @@ import { useState } from 'react'
 import './Card.css'
 import cardShine from '../assets/card-shine.png'
 
-function Card({ title, image, isDragging, className, button, link }) {
+function Card({ title, image, isDragging, className, button, button2, link, onNextCard }) {
   const [touched, setTouched] = useState(false);
   
   // Prevent default drag behavior for images
@@ -19,23 +19,26 @@ function Card({ title, image, isDragging, className, button, link }) {
     // Set touched state to show visual feedback
     setTouched(true);
     
+    // Get the dynamic link from props, or use fallback
+    const targetLink = link || 'https://instagram.com/_adam_rana_';
+    
     // Try multiple approaches in sequence
     try {
       // Method 1: Direct location change
-      window.location.href = 'https://instagram.com/_adam_rana_';
+      window.location.href = targetLink;
       
       // Method 2: Timeout fallback (if method 1 fails)
       setTimeout(() => {
-        window.open('https://instagram.com/_adam_rana_', '_system');
+        window.open(targetLink, '_system');
       }, 100);
       
       // Method 3: Last resort
       setTimeout(() => {
-        const link = document.createElement('a');
-        link.href = 'https://instagram.com/_adam_rana_';
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.click();
+        const linkElement = document.createElement('a');
+        linkElement.href = targetLink;
+        linkElement.target = '_blank';
+        linkElement.rel = 'noopener noreferrer';
+        linkElement.click();
       }, 200);
     } catch (err) {
       console.error('Navigation failed:', err);
@@ -47,13 +50,30 @@ function Card({ title, image, isDragging, className, button, link }) {
     }, 2000);
   };
 
+  // Handle advancing to next card
+  const handleNextCard = (e) => {
+    e.stopPropagation();
+    if (onNextCard) onNextCard();
+  };
+
+  // Extract just the domain for display purposes
+  const getDisplayLink = () => {
+    if (!link) return '@_adam_rana_';
+    try {
+      const url = new URL(link);
+      return url.hostname.replace('www.', '');
+    } catch {
+      return link;
+    }
+  };
+
   return (
     <div className={`card ${isDragging ? 'grabbing' : ''} ${className || ''}`}>
       {touched && (
         <div className="touch-indicator">
-          Opening Instagram...
+          Opening {getDisplayLink()}...
           <br/>
-          If nothing happens, search for @_adam_rana_
+          If nothing happens, try searching for the username
         </div>
       )}
       
@@ -72,7 +92,29 @@ function Card({ title, image, isDragging, className, button, link }) {
         draggable="false" 
         onDragStart={preventDrag}
       />
-      {button && button !== "null" && (
+      
+      {/* Handle two-button case */}
+      {button && button2 && (
+        <>
+          <div 
+            className='card-button yes-button'
+            onClick={handleNextCard}
+            onTouchStart={handleNextCard}
+          >
+            {button}
+          </div>
+          <div 
+            className='card-button no-button'
+            onClick={handleDirectTouch}
+            onTouchStart={handleDirectTouch}
+          >
+            {button2}
+          </div>
+        </>
+      )}
+      
+      {/* Handle single button case */}
+      {button && button !== "null" && !button2 && (
         <div 
           className='card-button'
           onClick={handleDirectTouch}
@@ -92,7 +134,9 @@ Card.propTypes = {
   isDragging: PropTypes.bool,
   className: PropTypes.string,
   button: PropTypes.string,
-  link: PropTypes.string
+  button2: PropTypes.string,
+  link: PropTypes.string,
+  onNextCard: PropTypes.func
 }
 
 export default Card

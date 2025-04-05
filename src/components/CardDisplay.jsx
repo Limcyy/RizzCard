@@ -183,6 +183,7 @@ function CardDisplay({ personName }) {
               title={card.title}
               image={card.image}
               button={card.button}
+              button2={card.button2}
               link={card.link}
               isDragging={isDragging}
               className={
@@ -192,6 +193,7 @@ function CardDisplay({ personName }) {
                   ? 'next'
                   : 'prev'
               }
+              onNextCard={() => setActiveIndex(activeIndex + 1)}
             />
           ))}
         </div>

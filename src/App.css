@@ -90,5 +90,28 @@ body.dragging {
   transition: none !important;
 }
 
+/* Add to Card.css */
+.two-button-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  gap: 10px;
+  padding: 0 15px;
+  margin-top: 10px;
+}
+
+.two-button-container .card-button {
+  width: 45%;
+  margin-top: 0;
+}
+
+.yes-button {
+  background-color: #4CAF50;
+}
+
+.no-button {
+  background-color: #F44336;
+}
+
 
 

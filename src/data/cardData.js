@@ -8,37 +8,33 @@ import sigmaPhoto from '../assets/sigma-photo.png'
 
 export const AdamCards = [
   {
-    title: "Hey, I was basically too scared to talk to you, so I just gave you this card..",
-    image: shyEmoji,
-    button: "null"
-  },
-  {
-    title: "And im def gonna need the card back so we better meet up again",
-    image: formalCat,
-    button: "null"
-  },
-  {
-    title: "Maybe you would like to know a little something about me....",
+    title: "Wsup Girl",
     image: cuteCat,
     button: "null"
   },
   {
-    title: "sometimes i sleep(usually at night)",
-    image: sleepingCat,
-    button: "null"
+    title: "wait, are you a girl?",
+    image: formalCat,
+    button: "yes",
+    button2: "no",
+    link: "https://www.youtube.com/shorts/dSRAXW2mqvc",
   },
   {
-    title: "i can cook for you ;)",
+    title: "are u over 14, and under 18?",
     image: cookCat,
-    button: "null"
+    button: "yes",
+    button2: "no",
+    link: "https://www.youtube.com/watch?v=KTs-LhnUMFs&ab_channel=Krtek/TheMole",
   },
   {
-    title: "I work out",
-    image: workOutCat,
-    button: "null"
+    title: "and are u single?",
+    image: sleepingCat,
+    button: "yes",
+    button2: "no",
+    link: "https://www.youtube.com/watch?v=bxzYqcArh_s&ab_channel=JoeyKidney",
   },
   {
-    title: "And yeahhh, please text me",
+    title: "then youre at the right place, text me 🤙🏾",
     image: sigmaPhoto,
     button: "instagram",
     link: "https://www.instagram.com/_adam_rana_?igsh=Y2lndjEycnQ1bGVv&utm_source=qr"
