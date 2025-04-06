@@ -69,7 +69,7 @@ function Card({ title, image, isDragging, className, button, button2, link, onNe
 
   return (
     <div className={`card ${isDragging ? 'grabbing' : ''} ${className || ''}`}>
-      {touched && (
+      {false && (
         <div className="touch-indicator">
           Opening {getDisplayLink()}...
           <br/>

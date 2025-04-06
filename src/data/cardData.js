@@ -5,6 +5,7 @@ import sleepingCat from '../assets/sleeping-cat.png'
 import cookCat from '../assets/cook-cat.png'
 import workOutCat from '../assets/work-out-cat.png'
 import sigmaPhoto from '../assets/sigma-photo.png'
+import sideEyeCat from '../assets/side-eye-cat.png'
 
 export const AdamCards = [
   {
@@ -13,28 +14,28 @@ export const AdamCards = [
     button: "null"
   },
   {
-    title: "wait, are you a girl?",
-    image: formalCat,
-    button: "yes",
-    button2: "no",
+    title: "Waaaait, are you a girl?",
+    image: sideEyeCat,
+    button: "yep 💕",
+    button2: "nah 👨🏽",
     link: "https://www.youtube.com/shorts/dSRAXW2mqvc",
   },
   {
-    title: "are u over 14, and under 18?",
+    title: "Uff, and are u over 14, and under 18?",
     image: cookCat,
     button: "yes",
     button2: "no",
     link: "https://www.youtube.com/watch?v=KTs-LhnUMFs&ab_channel=Krtek/TheMole",
   },
   {
-    title: "and are u single?",
+    title: "Anddd are u single?",
     image: sleepingCat,
-    button: "yes",
-    button2: "no",
+    button: "yea ❤️",
+    button2: "nah D:",
     link: "https://www.youtube.com/watch?v=bxzYqcArh_s&ab_channel=JoeyKidney",
   },
   {
-    title: "then youre at the right place, text me 🤙🏾",
+    title: "Then you at the right place bby, text me 🤙🏾",
     image: sigmaPhoto,
     button: "instagram",
     link: "https://www.instagram.com/_adam_rana_?igsh=Y2lndjEycnQ1bGVv&utm_source=qr"
