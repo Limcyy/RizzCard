@@ -44,7 +44,7 @@ export const AdamCards = [
 
 export const KrystofCards = [
   {
-    title: "Ahoj jsem Krys",
+    title: "Ahoj jsem Krysík",
     image: shyEmoji,
     button: "null"
   },
