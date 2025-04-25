@@ -77,7 +77,7 @@ export const KrystofCards = [
     title: "And yeahhh, please text me",
     image: workOutCat,
     button: "instagram",
-    link: "https://www.instagram.com/_adam_rana_?igsh=Y2lndjEycnQ1bGVv&utm_source=qr"
+    link: "https://www.instagram.com/krystoh._?igsh=MWtyZnB0YWpvdWRrbA=="
   }
 ]
 
