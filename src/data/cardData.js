@@ -44,12 +44,17 @@ export const AdamCards = [
 
 export const KrystofCards = [
   {
-    title: "Ahoj jsem Krystof",
+    title: "You just scanned a secret heart... ❤️ Ready to get to know me a little?",
     image: shyEmoji,
     button: "null"
   },
   {
-    title: "And im def gonna need the card back so we better meet up again",
+    title: "Hi, I'm Krystof 😊",
+    image: shyEmoji,
+    button: "null"
+  },
+  {
+    title: "You’re kinda stuck with me now... because I’ll need this card back. 😏",
     image: formalCat,
     button: "null"
   },
@@ -64,22 +69,22 @@ export const KrystofCards = [
   button: "null"
   },
   {
-    title: "sometimes i sleep(usually at night)",
+    title: "Believe it or not, I sometimes sleep. Mostly at night. 😴",
     image: sleepingCat,
     button: "null"
   },
   {
-    title: "i can cook for you ;)",
+    title: "I can cook for you... if you're lucky 🍳😉",
     image: cookCat,
     button: "null"
   },
   {
-    title: "I work out",
+    title: "I work out — mainly so I can hold the door open for you with a smile 😎💪",
     image: workOutCat,
     button: "null"
   },
   {
-    title: "And yeahhh, please text me",
+    title: "And yeah... you should definitely text me. ✉️💬 (Instagram ➡️)",
     image: workOutCat,
     button: "instagram",
     link: "https://www.instagram.com/krystoh._?igsh=MWtyZnB0YWpvdWRrbA=="
