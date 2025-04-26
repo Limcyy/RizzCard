@@ -6,7 +6,7 @@ import cookCat from '../assets/cook-cat.png'
 import workOutCat from '../assets/work-out-cat.png'
 import sigmaPhoto from '../assets/sigma-photo.png'
 import sideEyeCat from '../assets/side-eye-cat.png'
-import krystof from '../assets/krystofrizz'
+import krystof from '../assets/krystofrizz.png'
 
 export const AdamCards = [
   {
