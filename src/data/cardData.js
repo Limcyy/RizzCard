@@ -48,7 +48,7 @@ export const AdamCards = [
 export const KrystofCards = [
   {
     title: "Press play and let's hear some music! 🎶",
-    image: musiccat,
+    image: musicCat,
     button: "music",
     buttonMusic: true 
   },
