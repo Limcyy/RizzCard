@@ -84,7 +84,7 @@ export const KrystofCards = [
     button: "null"
   },
   {
-    title: "And yeah... you should definitely text me. ✉️💬 (Instagram ➡️)",
+    title: "And yeah... you should definitely text me. ✉️💬",
     image: workOutCat,
     button: "instagram",
     link: "https://www.instagram.com/krystoh._?igsh=MWtyZnB0YWpvdWRrbA=="
