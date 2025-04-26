@@ -8,6 +8,7 @@ import sigmaPhoto from '../assets/sigma-photo.png'
 import sideEyeCat from '../assets/side-eye-cat.png'
 import krystof from '../assets/krystofrizz.png'
 import musicFile from '../assets/good-night-lofi.mp3'
+import musicCat from '../assets/musiccat.png'
 
 export const AdamCards = [
   {
@@ -47,7 +48,7 @@ export const AdamCards = [
 export const KrystofCards = [
   {
     title: "Press play and let's hear some music! 🎶",
-    image: sigmaPhoto,
+    image: musiccat,
     button: "music",
     buttonMusic: true 
   },
