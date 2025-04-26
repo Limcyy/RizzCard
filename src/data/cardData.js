@@ -59,6 +59,11 @@ export const KrystofCards = [
     button: "null"
   },
   {
+  title: "Fun fact: I'm 87% coffee and 13% bad jokes.",
+  image: sideEyeCat,
+  button: "null"
+  },
+  {
     title: "sometimes i sleep(usually at night)",
     image: sleepingCat,
     button: "null"
