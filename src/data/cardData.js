@@ -45,6 +45,12 @@ export const AdamCards = [
   }
 ]
 
+export const playMusic = () => {
+  const audio = new Audio(musicFile);
+  audio.play();
+};
+
+
 export const KrystofCards = [
   {
     title: "Press play and let's hear some music 🎶",
@@ -100,11 +106,6 @@ export const KrystofCards = [
     link: "https://www.instagram.com/krystoh._?igsh=MWtyZnB0YWpvdWRrbA=="
   }
 ];
-
-export const playMusic = () => {
-  const audio = new Audio(musicFile);
-  audio.play();
-};
 
 
 export const FilipCards = [
