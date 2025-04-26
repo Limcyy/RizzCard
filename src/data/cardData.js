@@ -57,7 +57,6 @@ export const KrystofCards = [
     image: musiccat,
     button: "music",
     action: playMusic,
-    buttonMusic: true
     
   },
   {
