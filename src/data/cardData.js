@@ -6,6 +6,7 @@ import cookCat from '../assets/cook-cat.png'
 import workOutCat from '../assets/work-out-cat.png'
 import sigmaPhoto from '../assets/sigma-photo.png'
 import sideEyeCat from '../assets/side-eye-cat.png'
+import krystof from '../assets/krystofrizz'
 
 export const AdamCards = [
   {
@@ -85,7 +86,7 @@ export const KrystofCards = [
   },
   {
     title: "And yeah... you should definitely text me. ✉️💬",
-    image: workOutCat,
+    image: krystof,
     button: "instagram",
     link: "https://www.instagram.com/krystoh._?igsh=MWtyZnB0YWpvdWRrbA=="
   }
