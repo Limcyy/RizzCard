@@ -7,6 +7,7 @@ import workOutCat from '../assets/work-out-cat.png'
 import sigmaPhoto from '../assets/sigma-photo.png'
 import sideEyeCat from '../assets/side-eye-cat.png'
 import krystof from '../assets/krystofrizz.png'
+import musicFile from '../assets/good-night-lofi.mp3'
 
 export const AdamCards = [
   {
@@ -45,6 +46,12 @@ export const AdamCards = [
 
 export const KrystofCards = [
   {
+    title: "Press play and let's hear some music! 🎶",
+    image: sigmaPhoto,
+    button: "music",
+    buttonMusic: true 
+  },
+  {
     title: "You just scanned a secret heart... ❤️ Ready to get to know me a little?",
     image: shyEmoji,
     button: "null"
@@ -65,9 +72,9 @@ export const KrystofCards = [
     button: "null"
   },
   {
-  title: "Fun fact: I'm 87% coffee and 13% bad jokes.",
-  image: sideEyeCat,
-  button: "null"
+    title: "Fun fact: I'm 87% coffee and 13% bad jokes.",
+    image: sideEyeCat,
+    button: "null"
   },
   {
     title: "Believe it or not, I sometimes sleep. Mostly at night. 😴",
@@ -90,8 +97,12 @@ export const KrystofCards = [
     button: "instagram",
     link: "https://www.instagram.com/krystoh._?igsh=MWtyZnB0YWpvdWRrbA=="
   }
-]
+];
 
+export const playMusic = () => {
+  const audio = new Audio(musicFile);
+  audio.play();
+};
 
 
 export const FilipCards = [
