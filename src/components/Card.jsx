@@ -13,12 +13,29 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
   useEffect(() => {
     // Check if audio already exists as a global object
     if (!window.cardAudio) {
-      window.cardAudio = new Audio(musicFile);
-      window.cardAudio.volume = 1.0;  // Full volume
+      window.cardAudio = new Audio();
       
-      // Log audio element details for debugging
-      console.log("Created audio element:", window.cardAudio);
-      console.log("Audio source:", musicFile);
+      // Set source with proper error handling
+      try {
+        // Log the actual path for debugging
+        console.log("Attempting to load audio from:", musicFile);
+        window.cardAudio.src = musicFile;
+        
+        // Add error event listener to catch loading failures
+        window.cardAudio.addEventListener('error', (e) => {
+          console.error("Audio loading error:", e);
+          console.error("Error code:", window.cardAudio.error ? window.cardAudio.error.code : 'unknown');
+          console.error("Error message:", window.cardAudio.error ? window.cardAudio.error.message : 'unknown');
+        });
+        
+        window.cardAudio.volume = 1.0;  // Full volume
+        window.cardAudio.preload = "auto"; // Preload the audio
+        
+        // Log audio element details for debugging
+        console.log("Created audio element:", window.cardAudio);
+      } catch (err) {
+        console.error("Failed to create audio:", err);
+      }
     }
     
     audioRef.current = window.cardAudio;
@@ -68,8 +85,18 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
       } else {
         console.log("Attempting to play audio...");
         
+        // Check if source is available
+        if (!audioRef.current.src) {
+          console.log("Audio source not set, trying to set it now");
+          audioRef.current.src = musicFile;
+        }
+        
         // Force load the audio if not loaded
-        audioRef.current.load();
+        try {
+          audioRef.current.load();
+        } catch (loadErr) {
+          console.error("Error loading audio:", loadErr);
+        }
         
         // Show a user feedback alert
         alert("Starting music playback... (Check your volume!)");

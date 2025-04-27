@@ -7,7 +7,7 @@ import workOutCat from '../assets/work-out-cat.png'
 import sigmaPhoto from '../assets/sigma-photo.png'
 import sideEyeCat from '../assets/side-eye-cat.png'
 import krystof from '../assets/krystofrizz.png'
-import musicFile from '../assets/good-night-lofi.mp3'
+import musicFile from '../assets/lofi.mp3'
 import musiccat from '../assets/musiccat.png'
 
 export const AdamCards = [
@@ -48,6 +48,7 @@ export const AdamCards = [
 export const playMusic = () => {
   const audio = new Audio(musicFile);
   audio.play();
+  console.log("Music is playing");
 };
 
 
