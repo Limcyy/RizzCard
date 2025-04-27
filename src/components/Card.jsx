@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './Card.css'
 import cardShine from '../assets/card-shine.png'
 
@@ -12,10 +12,17 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
     return false;
   }
 
+  // Debugging function - uncomment if needed
+  // const logEvent = (name, e) => {
+  //   console.log(`${name} event triggered on ${e.target.className}`);
+  // }
+
   // Handle direct navigation attempt
   const handleDirectTouch = (e) => {
-    e.preventDefault(); // Prevent default touch behavior
-    e.stopPropagation(); // Stop event bubbling
+    if (e) {
+      e.preventDefault(); // Prevent default touch behavior
+      e.stopPropagation(); // Stop event bubbling
+    }
     
     // Check if we're dragging
     if (isDragging) return;
@@ -36,20 +43,6 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
     try {
       // Method 1: Direct location change
       window.location.href = targetLink;
-      
-      // Method 2: Timeout fallback (if method 1 fails)
-      setTimeout(() => {
-        window.open(targetLink, '_system');
-      }, 100);
-      
-      // Method 3: Last resort
-      setTimeout(() => {
-        const linkElement = document.createElement('a');
-        linkElement.href = targetLink;
-        linkElement.target = '_blank';
-        linkElement.rel = 'noopener noreferrer';
-        linkElement.click();
-      }, 200);
     } catch (err) {
       console.error('Navigation failed:', err);
     }
@@ -62,8 +55,11 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
 
   // Handle advancing to next card
   const handleNextCard = (e) => {
-    e.preventDefault(); // Prevent default touch behavior
-    e.stopPropagation();
+    if (e) {
+      e.preventDefault(); // Prevent default touch behavior
+      e.stopPropagation();
+    }
+    
     if (isDragging) return;
     if (onNextCard) onNextCard();
   };
@@ -108,42 +104,83 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
       {/* Handle two-button case */}
       {button && button2 && (
         <>
-          <div 
+          <button 
             className='card-button yes-button'
             onClick={handleNextCard}
             onTouchStart={(e) => {
               e.preventDefault();
-              handleNextCard(e);
+              e.stopPropagation();
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleNextCard();
+            }}
+            type="button"
+            style={{
+              userSelect: 'none',
+              touchAction: 'manipulation',
+              WebkitAppearance: 'none',
+              MozAppearance: 'none',
+              appearance: 'none',
+              cursor: 'pointer'
             }}
           >
             {button}
-          </div>
-          <div 
+          </button>
+          <button 
             className='card-button no-button'
             onClick={handleDirectTouch}
             onTouchStart={(e) => {
               e.preventDefault();
-              handleDirectTouch(e);
+              e.stopPropagation();
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleDirectTouch();
+            }}
+            type="button"
+            style={{
+              userSelect: 'none',
+              touchAction: 'manipulation',
+              WebkitAppearance: 'none',
+              MozAppearance: 'none',
+              appearance: 'none',
+              cursor: 'pointer'
             }}
           >
             {button2}
-          </div>
+          </button>
         </>
       )}
       
       {/* Handle single button case */}
       {button && button !== "null" && !button2 && (
-        <div 
+        <button 
           className='card-button'
           onClick={handleDirectTouch}
           onTouchStart={(e) => {
             e.preventDefault();
-            handleDirectTouch(e);
+            e.stopPropagation();
           }}
-          style={{userSelect: 'none', touchAction: 'manipulation'}}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleDirectTouch();
+          }}
+          type="button"
+          style={{
+            userSelect: 'none',
+            touchAction: 'manipulation',
+            WebkitAppearance: 'none',
+            MozAppearance: 'none',
+            appearance: 'none',
+            cursor: 'pointer'
+          }}
         >
           {button}
-        </div>
+        </button>
       )}
     </div>
   )
