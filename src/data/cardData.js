@@ -8,7 +8,7 @@ import sigmaPhoto from '../assets/sigma-photo.png'
 import sideEyeCat from '../assets/side-eye-cat.png'
 import krystof from '../assets/krystofrizz.png'
 import musiccat from '../assets/musiccat.png'
-
+import hellocat from '../assets/hellocat.jpg'
 export const AdamCards = [
   {
     title: "Wsup Girl",
@@ -59,7 +59,7 @@ export const KrystofCards = [
   },
   {
     title: "Hi, I'm Krystof 😊",
-    image: shyEmoji,
+    image: hellocat,
     button: "null"
   },
   {
