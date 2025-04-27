@@ -14,6 +14,7 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
 
   // Handle direct navigation attempt
   const handleDirectTouch = (e) => {
+    e.preventDefault(); // Prevent default touch behavior
     e.stopPropagation(); // Stop event bubbling
     
     // Check if we're dragging
@@ -61,6 +62,7 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
 
   // Handle advancing to next card
   const handleNextCard = (e) => {
+    e.preventDefault(); // Prevent default touch behavior
     e.stopPropagation();
     if (isDragging) return;
     if (onNextCard) onNextCard();
@@ -109,14 +111,20 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
           <div 
             className='card-button yes-button'
             onClick={handleNextCard}
-            onTouchStart={handleNextCard}
+            onTouchStart={(e) => {
+              e.preventDefault();
+              handleNextCard(e);
+            }}
           >
             {button}
           </div>
           <div 
             className='card-button no-button'
             onClick={handleDirectTouch}
-            onTouchStart={handleDirectTouch}
+            onTouchStart={(e) => {
+              e.preventDefault();
+              handleDirectTouch(e);
+            }}
           >
             {button2}
           </div>
@@ -128,8 +136,11 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
         <div 
           className='card-button'
           onClick={handleDirectTouch}
-          onTouchStart={handleDirectTouch}
-          style={{userSelect: 'none'}}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            handleDirectTouch(e);
+          }}
+          style={{userSelect: 'none', touchAction: 'manipulation'}}
         >
           {button}
         </div>
