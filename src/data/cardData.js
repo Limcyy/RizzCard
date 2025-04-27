@@ -45,19 +45,12 @@ export const AdamCards = [
   }
 ]
 
-export const playMusic = () => {
-  const audio = new Audio(musicFile);
-  audio.play();
-  console.log("Music is playing");
-};
-
-
 export const KrystofCards = [
   {
     title: "Press play and let's hear some music! 🎶",
     image: musiccat,
     button: "music",
-    action: playMusic
+    link: https://open.spotify.com/track/1qbiczUBVrFztPdeFbEimW?si=7cVSVl7fS6uyxDXE26s-1g
 
   },
   {
