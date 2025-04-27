@@ -80,9 +80,16 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
     
     try {
       if (isPlaying) {
-        console.log("Attempting to pause audio...");
+        console.log("Attempting to stop audio...");
         audioRef.current.pause();
+        audioRef.current.currentTime = 0; // Reset to beginning when stopping
       } else {
+        // If already attempting to play, don't try again
+        if (audioRef.current.readyState !== 0 && !audioRef.current.paused && !audioRef.current.ended) {
+          console.log("Audio is already playing or loading, ignoring request");
+          return;
+        }
+        
         console.log("Attempting to play audio...");
         
         // Check if source is available
@@ -277,7 +284,7 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
           }}
         >
           {action && action.name === 'playMusic' 
-            ? isPlaying ? 'Pause' : 'Play Music' 
+            ? isPlaying ? 'Stop' : 'Play Music' 
             : button}
         </div>
       )}
