@@ -80,7 +80,7 @@ export const KrystofCards = [
     button: "null"
   },
   {
-    title: "Fun fact: I'm 87% coffee and 13% bad jokes.",
+    title: "Fun fact: I'm 89% coffee and 11% bad jokes.",
     image: sideEyeCat,
     button: "null"
   },
