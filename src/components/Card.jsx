@@ -70,48 +70,48 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
     if (button && (button !== "null" || button2)) {
       // Create overlay divs for better touch handling
       if (button2) {
-        // Two button case
-        const leftOverlay = document.createElement('div');
-        leftOverlay.className = 'mobile-tap-overlay left-button-overlay';
-        leftOverlay.style.cssText = `
+        // Two button case - Position them vertically instead of horizontally
+        const topOverlay = document.createElement('div');
+        topOverlay.className = 'mobile-tap-overlay top-button-overlay';
+        topOverlay.style.cssText = `
           position: fixed !important;
           z-index: 999999 !important;
-          bottom: 20% !important;
-          left: 25% !important;
+          bottom: 30% !important;
+          left: 40% !important;
           width: 20% !important;
-          height: 15% !important;
-          background-color: rgba(76, 175, 80, 0.2) !important;
+          height: 10% !important;
+          background-color: rgba(0, 0, 0, 0) !important; /* Fully transparent */
           border-radius: 15px !important;
         `;
         
-        const rightOverlay = document.createElement('div');
-        rightOverlay.className = 'mobile-tap-overlay right-button-overlay';
-        rightOverlay.style.cssText = `
+        const bottomOverlay = document.createElement('div');
+        bottomOverlay.className = 'mobile-tap-overlay bottom-button-overlay';
+        bottomOverlay.style.cssText = `
           position: fixed !important;
           z-index: 999999 !important;
-          bottom: 20% !important;
-          right: 25% !important;
+          bottom: 18% !important;
+          left: 40% !important;
           width: 20% !important;
-          height: 15% !important;
-          background-color: rgba(244, 67, 54, 0.2) !important;
+          height: 10% !important;
+          background-color: rgba(0, 0, 0, 0) !important; /* Fully transparent */
           border-radius: 15px !important;
         `;
         
         // Add direct event handlers
-        leftOverlay.addEventListener('touchstart', (e) => {
+        topOverlay.addEventListener('touchstart', (e) => {
           e.preventDefault();
           e.stopPropagation();
           handleNextCard();
         });
         
-        rightOverlay.addEventListener('touchstart', (e) => {
+        bottomOverlay.addEventListener('touchstart', (e) => {
           e.preventDefault();
           e.stopPropagation();
           handleDirectTouch();
         });
         
-        document.body.appendChild(leftOverlay);
-        document.body.appendChild(rightOverlay);
+        document.body.appendChild(topOverlay);
+        document.body.appendChild(bottomOverlay);
       } else if (button !== "null") {
         // Single button case
         const buttonOverlay = document.createElement('div');
@@ -123,7 +123,7 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
           left: 40% !important;
           width: 20% !important;
           height: 15% !important;
-          background-color: rgba(0, 0, 0, 0.2) !important;
+          background-color: rgba(0, 0, 0, 0) !important; /* Fully transparent */
           border-radius: 15px !important;
         `;
         
@@ -167,9 +167,17 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
         onDragStart={preventDrag}
       />
       
-      {/* Two-button case */}
+      {/* Two-button case - Vertical layout */}
       {button && button2 && (
-        <div className="two-button-container" style={{display: 'flex', width: '100%', justifyContent: 'space-around', padding: '0 15px', marginTop: '20px', zIndex: '9999 !important'}}>
+        <div className="buttons-vertical-container" style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          alignItems: 'center',
+          gap: '10px',
+          padding: '0 15px',
+          marginTop: '20px'
+        }}>
           <a 
             href="#" 
             className='card-button yes-button'
@@ -179,7 +187,7 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
             }}
             style={{
               display: 'block !important',
-              width: '45% !important',
+              width: '50% !important',
               padding: '12px !important',
               backgroundColor: '#4CAF50 !important',
               color: 'white !important',
@@ -188,7 +196,6 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
               fontWeight: 'bold !important',
               fontSize: '16px !important',
               textDecoration: 'none !important',
-              position: 'relative !important',
               zIndex: '99999 !important',
               userSelect: 'none !important',
               WebkitUserSelect: 'none !important',
@@ -209,7 +216,7 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
             rel="noopener noreferrer"
             style={{
               display: 'block !important',
-              width: '45% !important',
+              width: '50% !important',
               padding: '12px !important',
               backgroundColor: '#F44336 !important',
               color: 'white !important',
@@ -218,7 +225,6 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
               fontWeight: 'bold !important',
               fontSize: '16px !important',
               textDecoration: 'none !important',
-              position: 'relative !important',
               zIndex: '99999 !important',
               userSelect: 'none !important',
               WebkitUserSelect: 'none !important',
@@ -254,7 +260,6 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
             fontSize: '16px !important',
             marginTop: '20px !important',
             textDecoration: 'none !important',
-            position: 'relative !important',
             zIndex: '99999 !important',
             userSelect: 'none !important',
             WebkitUserSelect: 'none !important',
