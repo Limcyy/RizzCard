@@ -179,22 +179,23 @@ function CardDisplay({ personName }) {
         >
           {cardData.map((card, index) => (
             <Card
-              key={index}
-              title={card.title}
-              image={card.image}
-              button={card.button}
-              button2={card.button2}
-              link={card.link}
-              isDragging={isDragging}
-              className={
-                index === activeIndex
-                  ? 'active'
-                  : index === activeIndex + 1
-                  ? 'next'
-                  : 'prev'
-              }
-              onNextCard={() => setActiveIndex(activeIndex + 1)}
-            />
+            key={index}
+            title={card.title}
+            image={card.image}
+            button={card.button}
+            button2={card.button2}
+            link={card.link}
+            action={card.action}
+            isDragging={isDragging}
+            className={
+              index === activeIndex
+                ? 'active'
+                : index === activeIndex + 1
+                ? 'next'
+                : 'prev'
+            }
+            onNextCard={() => setActiveIndex(activeIndex + 1)}
+          />
           ))}
         </div>
       </div>

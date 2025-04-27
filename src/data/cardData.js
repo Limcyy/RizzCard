@@ -57,7 +57,7 @@ export const KrystofCards = [
     image: musiccat,
     button: "music",
     action: playMusic,
-    
+
   },
   {
     title: "You just scanned a secret heart... ❤️ Ready to get to know me a little?",
@@ -70,7 +70,7 @@ export const KrystofCards = [
     button: "null"
   },
   {
-    title: "You’re kinda stuck with me now... because I’ll need this card back. 😏",
+    title: "You're kinda stuck with me now... because I'll need this card back. 😏",
     image: formalCat,
     button: "null"
   },
