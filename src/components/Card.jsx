@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './Card.css'
 import cardShine from '../assets/card-shine.png'
 
-function Card({ title, image, isDragging, className, button, button2, link, action, onNextCard }) {
+function Card({ title, image, isDragging, className, button, button2, link, onNextCard }) {
   const [touched, setTouched] = useState(false);
   
   // Prevent default drag behavior for images
@@ -12,42 +12,51 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
     return false;
   }
 
-  // Debugging function - uncomment if needed
-  // const logEvent = (name, e) => {
-  //   console.log(`${name} event triggered on ${e.target.className}`);
-  // }
-
-  // Handle direct navigation attempt - SIMPLIFIED VERSION
-  const handleDirectTouch = () => {
-    // Don't handle if we're dragging
-    if (isDragging) return;
+  // Handle direct navigation attempt
+  const handleDirectTouch = (e) => {
+    e.stopPropagation(); // Stop event bubbling
     
-    // Handle action function if available
-    if (action) {
-      action();
-      return;
-    }
-    
-    // Otherwise, handle navigation
+    // Set touched state to show visual feedback
     setTouched(true);
     
-    // Get target link
+    // Get the dynamic link from props, or use fallback
     const targetLink = link || 'https://instagram.com/_adam_rana_';
     
-    // Navigate directly - most reliable method
-    window.open(targetLink, '_blank');
+    // Try multiple approaches in sequence
+    try {
+      // Method 1: Direct location change
+      window.location.href = targetLink;
+      
+      // Method 2: Timeout fallback (if method 1 fails)
+      setTimeout(() => {
+        window.open(targetLink, '_system');
+      }, 100);
+      
+      // Method 3: Last resort
+      setTimeout(() => {
+        const linkElement = document.createElement('a');
+        linkElement.href = targetLink;
+        linkElement.target = '_blank';
+        linkElement.rel = 'noopener noreferrer';
+        linkElement.click();
+      }, 200);
+    } catch (err) {
+      console.error('Navigation failed:', err);
+    }
     
-    // Reset state after delay
-    setTimeout(() => setTouched(false), 2000);
+    // Reset touched state after 2 seconds
+    setTimeout(() => {
+      setTouched(false);
+    }, 2000);
   };
 
-  // Handle advancing to next card - SIMPLIFIED VERSION
-  const handleNextCard = () => {
-    if (isDragging) return;
+  // Handle advancing to next card
+  const handleNextCard = (e) => {
+    e.stopPropagation();
     if (onNextCard) onNextCard();
   };
 
-  // Get display link
+  // Extract just the domain for display purposes
   const getDisplayLink = () => {
     if (!link) return '@_adam_rana_';
     try {
@@ -58,96 +67,13 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
     }
   };
 
-  // Use useEffect to add a tap handler directly to the document
-  useEffect(() => {
-    // Only add these handlers if we're the active card
-    if (!className || !className.includes('active')) return;
-    
-    // Remove any existing handlers first
-    document.querySelectorAll('.mobile-tap-overlay').forEach(el => el.remove());
-    
-    // If we have buttons to handle
-    if (button && (button !== "null" || button2)) {
-      // Create overlay divs for better touch handling
-      if (button2) {
-        // Two button case - Position them vertically instead of horizontally
-        const topOverlay = document.createElement('div');
-        topOverlay.className = 'mobile-tap-overlay top-button-overlay';
-        topOverlay.style.cssText = `
-          position: fixed !important;
-          z-index: 999999 !important;
-          bottom: 30% !important;
-          left: 40% !important;
-          width: 20% !important;
-          height: 10% !important;
-          background-color: rgba(0, 0, 0, 0) !important; /* Fully transparent */
-          border-radius: 15px !important;
-        `;
-        
-        const bottomOverlay = document.createElement('div');
-        bottomOverlay.className = 'mobile-tap-overlay bottom-button-overlay';
-        bottomOverlay.style.cssText = `
-          position: fixed !important;
-          z-index: 999999 !important;
-          bottom: 18% !important;
-          left: 40% !important;
-          width: 20% !important;
-          height: 10% !important;
-          background-color: rgba(0, 0, 0, 0) !important; /* Fully transparent */
-          border-radius: 15px !important;
-        `;
-        
-        // Add direct event handlers
-        topOverlay.addEventListener('touchstart', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          handleNextCard();
-        });
-        
-        bottomOverlay.addEventListener('touchstart', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          handleDirectTouch();
-        });
-        
-        document.body.appendChild(topOverlay);
-        document.body.appendChild(bottomOverlay);
-      } else if (button !== "null") {
-        // Single button case
-        const buttonOverlay = document.createElement('div');
-        buttonOverlay.className = 'mobile-tap-overlay single-button-overlay';
-        buttonOverlay.style.cssText = `
-          position: fixed !important;
-          z-index: 999999 !important;
-          bottom: 20% !important;
-          left: 40% !important;
-          width: 20% !important;
-          height: 15% !important;
-          background-color: rgba(0, 0, 0, 0) !important; /* Fully transparent */
-          border-radius: 15px !important;
-        `;
-        
-        buttonOverlay.addEventListener('touchstart', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          handleDirectTouch();
-        });
-        
-        document.body.appendChild(buttonOverlay);
-      }
-    }
-    
-    return () => {
-      // Clean up our overlays when component unmounts or changes
-      document.querySelectorAll('.mobile-tap-overlay').forEach(el => el.remove());
-    };
-  }, [className, button, button2]);
-
   return (
     <div className={`card ${isDragging ? 'grabbing' : ''} ${className || ''}`}>
-      {touched && (
+      {false && (
         <div className="touch-indicator">
           Opening {getDisplayLink()}...
+          <br/>
+          If nothing happens, try searching for the username
         </div>
       )}
       
@@ -167,108 +93,36 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
         onDragStart={preventDrag}
       />
       
-      {/* Two-button case - Vertical layout */}
+      {/* Handle two-button case */}
       {button && button2 && (
-        <div className="buttons-vertical-container" style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          alignItems: 'center',
-          gap: '10px',
-          padding: '0 15px',
-          marginTop: '20px'
-        }}>
-          <a 
-            href="#" 
+        <>
+          <div 
             className='card-button yes-button'
-            onClick={(e) => {
-              e.preventDefault();
-              handleNextCard();
-            }}
-            style={{
-              display: 'block !important',
-              width: '50% !important',
-              padding: '12px !important',
-              backgroundColor: '#4CAF50 !important',
-              color: 'white !important',
-              borderRadius: '15px !important',
-              textAlign: 'center !important',
-              fontWeight: 'bold !important',
-              fontSize: '16px !important',
-              textDecoration: 'none !important',
-              zIndex: '99999 !important',
-              userSelect: 'none !important',
-              WebkitUserSelect: 'none !important',
-              touchAction: 'manipulation !important',
-              cursor: 'pointer !important'
-            }}
+            onClick={handleNextCard}
+            onTouchStart={handleNextCard}
           >
             {button}
-          </a>
-          <a 
-            href={link || "https://instagram.com/_adam_rana_"}
+          </div>
+          <div 
             className='card-button no-button'
-            onClick={(e) => {
-              e.preventDefault();
-              handleDirectTouch();
-            }}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'block !important',
-              width: '50% !important',
-              padding: '12px !important',
-              backgroundColor: '#F44336 !important',
-              color: 'white !important',
-              borderRadius: '15px !important',
-              textAlign: 'center !important',
-              fontWeight: 'bold !important',
-              fontSize: '16px !important',
-              textDecoration: 'none !important',
-              zIndex: '99999 !important',
-              userSelect: 'none !important',
-              WebkitUserSelect: 'none !important',
-              touchAction: 'manipulation !important',
-              cursor: 'pointer !important'
-            }}
+            onClick={handleDirectTouch}
+            onTouchStart={handleDirectTouch}
           >
             {button2}
-          </a>
-        </div>
+          </div>
+        </>
       )}
       
-      {/* Single button case */}
+      {/* Handle single button case */}
       {button && button !== "null" && !button2 && (
-        <a 
-          href={link || "https://instagram.com/_adam_rana_"}
+        <div 
           className='card-button'
-          onClick={(e) => {
-            e.preventDefault();
-            handleDirectTouch();
-          }}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: 'block !important',
-            width: '50% !important',
-            padding: '12px !important',
-            backgroundColor: '#000000 !important',
-            color: 'white !important',
-            borderRadius: '15px !important',
-            textAlign: 'center !important',
-            fontWeight: 'bold !important',
-            fontSize: '16px !important',
-            marginTop: '20px !important',
-            textDecoration: 'none !important',
-            zIndex: '99999 !important',
-            userSelect: 'none !important',
-            WebkitUserSelect: 'none !important',
-            touchAction: 'manipulation !important',
-            cursor: 'pointer !important'
-          }}
+          onClick={handleDirectTouch}
+          onTouchStart={handleDirectTouch}
+          style={{userSelect: 'none'}}
         >
           {button}
-        </a>
+        </div>
       )}
     </div>
   )
@@ -282,7 +136,6 @@ Card.propTypes = {
   button: PropTypes.string,
   button2: PropTypes.string,
   link: PropTypes.string,
-  action: PropTypes.func,
   onNextCard: PropTypes.func
 }
 
