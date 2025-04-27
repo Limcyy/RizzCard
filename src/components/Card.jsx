@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useState, useEffect, useRef } from 'react'
 import './Card.css'
 import cardShine from '../assets/card-shine.png'
-import musicFile from '../assets/01 A Night In Tunisia.mp3'
+import musicFile from '../assets/lofi.mp3'
 
 function Card({ title, image, isDragging, className, button, button2, link, action, onNextCard }) {
   const [touched, setTouched] = useState(false);
