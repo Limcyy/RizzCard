@@ -50,7 +50,7 @@ export const KrystofCards = [
     title: "Press play and let's hear some music! 🎶",
     image: musiccat,
     button: "music",
-    link: "open.spotify.com/track/1qbiczUBVrFztPdeFbEimW?si=7cVSVl7fS6uyxDXE26s-1g"
+    link: "https://open.spotify.com/track/1qbiczUBVrFztPdeFbEimW?si=7cVSVl7fS6uyxDXE26s-1g"
 
   },
   {
@@ -97,7 +97,7 @@ export const KrystofCards = [
     title: "And yeah... you should definitely text me. ✉️💬",
     image: krystof,
     button: "instagram",
-    link: "www.instagram.com/krystoh._?igsh=MWtyZnB0YWpvdWRrbA=="
+    link: "https://www.instagram.com/krystoh._?igsh=MWtyZnB0YWpvdWRrbA=="
   }
 ];
 
