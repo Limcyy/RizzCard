@@ -17,54 +17,37 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
   //   console.log(`${name} event triggered on ${e.target.className}`);
   // }
 
-  // Handle direct navigation attempt
-  const handleDirectTouch = (e) => {
-    if (e) {
-      e.preventDefault(); // Prevent default touch behavior
-      e.stopPropagation(); // Stop event bubbling
-    }
-    
-    // Check if we're dragging
+  // Handle direct navigation attempt - SIMPLIFIED VERSION
+  const handleDirectTouch = () => {
+    // Don't handle if we're dragging
     if (isDragging) return;
     
-    // If we have an action function, execute it
+    // Handle action function if available
     if (action) {
       action();
       return;
     }
     
-    // Otherwise, handle link navigation
+    // Otherwise, handle navigation
     setTouched(true);
     
-    // Get the dynamic link from props, or use fallback
+    // Get target link
     const targetLink = link || 'https://instagram.com/_adam_rana_';
     
-    // Try multiple approaches in sequence
-    try {
-      // Method 1: Direct location change
-      window.location.href = targetLink;
-    } catch (err) {
-      console.error('Navigation failed:', err);
-    }
+    // Navigate directly - most reliable method
+    window.open(targetLink, '_blank');
     
-    // Reset touched state after 2 seconds
-    setTimeout(() => {
-      setTouched(false);
-    }, 2000);
+    // Reset state after delay
+    setTimeout(() => setTouched(false), 2000);
   };
 
-  // Handle advancing to next card
-  const handleNextCard = (e) => {
-    if (e) {
-      e.preventDefault(); // Prevent default touch behavior
-      e.stopPropagation();
-    }
-    
+  // Handle advancing to next card - SIMPLIFIED VERSION
+  const handleNextCard = () => {
     if (isDragging) return;
     if (onNextCard) onNextCard();
   };
 
-  // Extract just the domain for display purposes
+  // Get display link
   const getDisplayLink = () => {
     if (!link) return '@_adam_rana_';
     try {
@@ -75,13 +58,96 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
     }
   };
 
+  // Use useEffect to add a tap handler directly to the document
+  useEffect(() => {
+    // Only add these handlers if we're the active card
+    if (!className || !className.includes('active')) return;
+    
+    // Remove any existing handlers first
+    document.querySelectorAll('.mobile-tap-overlay').forEach(el => el.remove());
+    
+    // If we have buttons to handle
+    if (button && (button !== "null" || button2)) {
+      // Create overlay divs for better touch handling
+      if (button2) {
+        // Two button case
+        const leftOverlay = document.createElement('div');
+        leftOverlay.className = 'mobile-tap-overlay left-button-overlay';
+        leftOverlay.style.cssText = `
+          position: fixed !important;
+          z-index: 999999 !important;
+          bottom: 20% !important;
+          left: 25% !important;
+          width: 20% !important;
+          height: 15% !important;
+          background-color: rgba(76, 175, 80, 0.2) !important;
+          border-radius: 15px !important;
+        `;
+        
+        const rightOverlay = document.createElement('div');
+        rightOverlay.className = 'mobile-tap-overlay right-button-overlay';
+        rightOverlay.style.cssText = `
+          position: fixed !important;
+          z-index: 999999 !important;
+          bottom: 20% !important;
+          right: 25% !important;
+          width: 20% !important;
+          height: 15% !important;
+          background-color: rgba(244, 67, 54, 0.2) !important;
+          border-radius: 15px !important;
+        `;
+        
+        // Add direct event handlers
+        leftOverlay.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleNextCard();
+        });
+        
+        rightOverlay.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleDirectTouch();
+        });
+        
+        document.body.appendChild(leftOverlay);
+        document.body.appendChild(rightOverlay);
+      } else if (button !== "null") {
+        // Single button case
+        const buttonOverlay = document.createElement('div');
+        buttonOverlay.className = 'mobile-tap-overlay single-button-overlay';
+        buttonOverlay.style.cssText = `
+          position: fixed !important;
+          z-index: 999999 !important;
+          bottom: 20% !important;
+          left: 40% !important;
+          width: 20% !important;
+          height: 15% !important;
+          background-color: rgba(0, 0, 0, 0.2) !important;
+          border-radius: 15px !important;
+        `;
+        
+        buttonOverlay.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleDirectTouch();
+        });
+        
+        document.body.appendChild(buttonOverlay);
+      }
+    }
+    
+    return () => {
+      // Clean up our overlays when component unmounts or changes
+      document.querySelectorAll('.mobile-tap-overlay').forEach(el => el.remove());
+    };
+  }, [className, button, button2]);
+
   return (
     <div className={`card ${isDragging ? 'grabbing' : ''} ${className || ''}`}>
       {touched && (
         <div className="touch-indicator">
           Opening {getDisplayLink()}...
-          <br/>
-          If nothing happens, try searching for the username
         </div>
       )}
       
@@ -101,86 +167,103 @@ function Card({ title, image, isDragging, className, button, button2, link, acti
         onDragStart={preventDrag}
       />
       
-      {/* Handle two-button case */}
+      {/* Two-button case */}
       {button && button2 && (
-        <>
-          <button 
+        <div className="two-button-container" style={{display: 'flex', width: '100%', justifyContent: 'space-around', padding: '0 15px', marginTop: '20px', zIndex: '9999 !important'}}>
+          <a 
+            href="#" 
             className='card-button yes-button'
-            onClick={handleNextCard}
-            onTouchStart={(e) => {
+            onClick={(e) => {
               e.preventDefault();
-              e.stopPropagation();
-            }}
-            onTouchEnd={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
               handleNextCard();
             }}
-            type="button"
             style={{
-              userSelect: 'none',
-              touchAction: 'manipulation',
-              WebkitAppearance: 'none',
-              MozAppearance: 'none',
-              appearance: 'none',
-              cursor: 'pointer'
+              display: 'block !important',
+              width: '45% !important',
+              padding: '12px !important',
+              backgroundColor: '#4CAF50 !important',
+              color: 'white !important',
+              borderRadius: '15px !important',
+              textAlign: 'center !important',
+              fontWeight: 'bold !important',
+              fontSize: '16px !important',
+              textDecoration: 'none !important',
+              position: 'relative !important',
+              zIndex: '99999 !important',
+              userSelect: 'none !important',
+              WebkitUserSelect: 'none !important',
+              touchAction: 'manipulation !important',
+              cursor: 'pointer !important'
             }}
           >
             {button}
-          </button>
-          <button 
+          </a>
+          <a 
+            href={link || "https://instagram.com/_adam_rana_"}
             className='card-button no-button'
-            onClick={handleDirectTouch}
-            onTouchStart={(e) => {
+            onClick={(e) => {
               e.preventDefault();
-              e.stopPropagation();
-            }}
-            onTouchEnd={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
               handleDirectTouch();
             }}
-            type="button"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
-              userSelect: 'none',
-              touchAction: 'manipulation',
-              WebkitAppearance: 'none',
-              MozAppearance: 'none',
-              appearance: 'none',
-              cursor: 'pointer'
+              display: 'block !important',
+              width: '45% !important',
+              padding: '12px !important',
+              backgroundColor: '#F44336 !important',
+              color: 'white !important',
+              borderRadius: '15px !important',
+              textAlign: 'center !important',
+              fontWeight: 'bold !important',
+              fontSize: '16px !important',
+              textDecoration: 'none !important',
+              position: 'relative !important',
+              zIndex: '99999 !important',
+              userSelect: 'none !important',
+              WebkitUserSelect: 'none !important',
+              touchAction: 'manipulation !important',
+              cursor: 'pointer !important'
             }}
           >
             {button2}
-          </button>
-        </>
+          </a>
+        </div>
       )}
       
-      {/* Handle single button case */}
+      {/* Single button case */}
       {button && button !== "null" && !button2 && (
-        <button 
+        <a 
+          href={link || "https://instagram.com/_adam_rana_"}
           className='card-button'
-          onClick={handleDirectTouch}
-          onTouchStart={(e) => {
+          onClick={(e) => {
             e.preventDefault();
-            e.stopPropagation();
-          }}
-          onTouchEnd={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
             handleDirectTouch();
           }}
-          type="button"
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
-            userSelect: 'none',
-            touchAction: 'manipulation',
-            WebkitAppearance: 'none',
-            MozAppearance: 'none',
-            appearance: 'none',
-            cursor: 'pointer'
+            display: 'block !important',
+            width: '50% !important',
+            padding: '12px !important',
+            backgroundColor: '#000000 !important',
+            color: 'white !important',
+            borderRadius: '15px !important',
+            textAlign: 'center !important',
+            fontWeight: 'bold !important',
+            fontSize: '16px !important',
+            marginTop: '20px !important',
+            textDecoration: 'none !important',
+            position: 'relative !important',
+            zIndex: '99999 !important',
+            userSelect: 'none !important',
+            WebkitUserSelect: 'none !important',
+            touchAction: 'manipulation !important',
+            cursor: 'pointer !important'
           }}
         >
           {button}
-        </button>
+        </a>
       )}
     </div>
   )
