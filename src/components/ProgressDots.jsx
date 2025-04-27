@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import './ProgressDots.css'
 
 function ProgressDots({ totalDots, activeDot, onDotClick }) {
   return (

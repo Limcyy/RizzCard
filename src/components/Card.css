@@ -1,0 +1,234 @@
+.card-container {
+  margin-top: -100px;
+  width: 100%;
+  max-width: 350px;
+  height: 90%;
+  max-height: 700px;
+  overflow: visible;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  background-color: #ffffff;
+  cursor: default;
+  
+}
+
+/* Add side fades */
+/* .card-container::before,
+.card-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: 100vh;
+  width: 40px;
+  pointer-events: none;
+  z-index: 10;
+  background-color: #ffffff;
+} */
+
+/* .card-container::before {
+  left: -10px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.card-container::after {
+  right: -10px;
+  background: linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+} */
+
+.card-slider {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+  will-change: transform;
+  user-select: none;
+  align-items: center;
+  justify-content: center; /* Center the cards in the slider */
+  gap: 15px;
+}
+
+/* Define the shine animation keyframes - upward motion only */
+@keyframes shineEffect {
+  0% {
+    transform: translate(0%, 100%); /* Start below the card */
+    opacity: 0; /* Start invisible */
+  }
+  10% {
+    opacity: 0.9; /* Fade in as it begins to rise */
+  }
+  50% {
+    opacity: 1; /* Peak brightness as it crosses the middle */
+  }
+  90% {
+    opacity: 0.9; /* Start to fade out near the top */
+  }
+  100% {
+    transform: translate(0%, -100%); /* End above the card */
+    opacity: 0; /* End invisible */
+  }
+}
+
+/* By default, hide the shine on all cards */
+.card-shine {
+  opacity: 0; /* Hide by default */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  object-fit: cover;
+  border-radius: 2.91863rem;
+  pointer-events: none;
+  width: 120%;
+  height: 110%;
+  max-width: none;
+  max-height: none;
+  min-width: 100%;
+  min-height: 110%;
+  filter: brightness(1.1) contrast(1.1);
+}
+
+/* Only show and animate the shine on the active card */
+.card.active .card-shine {
+  opacity: 1; /* Make visible */
+  animation: shineEffect 3s ease-in-out infinite;
+  animation-delay: 2s; /* Wait 2 seconds before starting */
+}
+
+.card {
+
+  position: absolute; /* Make cards position absolute */
+  left: 50%; /* Position from center */
+  transform: translateX(-50%); /* Center the card */
+  width: calc(100% - 70px); /* Width adjusted from flex basis */
+  height: 80%;
+  aspect-ratio: 344/650;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 2.91863rem;
+  border: 3.451px solid #FFA5A6;
+  background: #FFF;
+  background-image: url('../assets/card-bg.png');
+  background-size: 100% 100%; /* Changed to stretch to fill card exactly */
+  background-position: center;
+  background-repeat: no-repeat;
+  gap: 1px;
+  text-align: center;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+  margin-left: -26%;
+
+  .card-button {
+    background-color: #000000;
+    width: 50%;
+    z-index: 100000000000;
+    margin-top: 15px;
+    height: 40px;
+    color: #FFF !important;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .card-button:hover {
+    opacity: 0.9;
+  }
+
+  .card-button:active {
+    transform: scale(0.98);
+  }
+
+}
+
+.card.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-20%) scale(1.02);
+}
+
+.card img {
+  width: 60%;
+  max-width: 200px;
+  border-radius: 1.5em;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+
+}
+
+.card h2 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  width: 50%;
+  font-weight: 700;
+  color: #000;
+  
+  padding: 0 20px;
+}
+
+.card .deviding-line {
+  width: 60%;
+  height: 3px;
+  background-color: #FFD2D2;
+  margin: 10px 0;
+}
+
+.card.grabbing {
+  cursor: grabbing !important;
+}
+
+body.dragging {
+  cursor: grabbing !important;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Next card - peeking out to the right with 50% opacity */
+.card.next {
+  opacity: 0.5;  /* Changed from 0.8 to 0.5 as requested */
+  transform: translateX(0%); /* Move 30% to the right */
+  z-index: 1;
+}
+
+.music-indicator {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  z-index: 1000;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
