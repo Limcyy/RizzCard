@@ -63,7 +63,7 @@ export const KrystofCards = [
     button: "null"
   },
   {
-    title: "You're kinda stuck with me now... because I'll need this card back. 😏",
+    title: "You're stuck with me now... and honestly, it’s the best mistake you’ll ever make. 😏",
     image: formalCat,
     button: "null"
   },
