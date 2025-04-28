@@ -78,22 +78,24 @@ export const KrystofCards = [
     button: "null"
   },
   {
-    title: "Believe it or not, I sometimes sleep. Mostly at night. 😴",
+    title: "Yeah, I sleep... but dreaming about you doesn’t count, right? 😴",
+
     image: sleepingCat,
     button: "null"
   },
   {
-    title: "I can cook for you... if you're lucky 🍳😉",
+    title: "I cook... and yeah, I might even serve you breakfast in bed. 🍳😉",
     image: cookCat,
     button: "null"
   },
   {
-    title: "I work out — mainly so I can hold the door open for you with a smile 😎💪",
+    title: "I hit the gym just to be strong enough to carry you... or your shopping bags. 😎💪",
     image: workOutCat,
     button: "null"
   },
   {
-    title: "And yeah... you should definitely text me. ✉️💬",
+    title: "Text me — I promise I'm even better at flirting in DMs. ✉️"
+,
     image: formalCat,
     button: "instagram",
     link: "https://www.instagram.com/krystoh._?igsh=MWtyZnB0YWpvdWRrbA=="
