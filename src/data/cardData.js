@@ -46,7 +46,7 @@ export const AdamCards = [
 
 export const KrystofCards = [
   {
-    title: "Hit play — I've got a song just for you! 🎶",
+    title: "Press play... I picked a song that’s almost as good as my smile. 🎶",
     image: musiccat,
     button: "music",
     link: "https://open.spotify.com/track/1qbiczUBVrFztPdeFbEimW?si=7cVSVl7fS6uyxDXE26s-1g"
