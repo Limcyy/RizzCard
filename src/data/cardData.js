@@ -94,7 +94,7 @@ export const KrystofCards = [
   },
   {
     title: "And yeah... you should definitely text me. ✉️💬",
-    image: krystof,
+    image: formalCat,
     button: "instagram",
     link: "https://www.instagram.com/krystoh._?igsh=MWtyZnB0YWpvdWRrbA=="
   }
