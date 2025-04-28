@@ -68,12 +68,12 @@ export const KrystofCards = [
     button: "null"
   },
   {
-    title: "Maybe you would like to know a little something about me....",
+    title: "Wanna know some random things about me? Spoiler: they might make you fall a little. ✨",
     image: cuteCat,
     button: "null"
   },
   {
-    title: "Fun fact: I'm 89% coffee and 11% bad jokes.",
+    title: "I'm 89% coffee, 11% bad jokes... and 100% your problem now. ☕️",
     image: sideEyeCat,
     button: "null"
   },
