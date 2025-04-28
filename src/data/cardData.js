@@ -53,7 +53,7 @@ export const KrystofCards = [
 
   },
   {
-    title: "You just scanned a secret heart... ❤️ Ready to get to know me a little?",
+    title: "You just unlocked a secret heart... careful, I’m dangerously charming. ❤️",
     image: shyEmoji,
     button: "null"
   },
