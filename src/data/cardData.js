@@ -58,7 +58,7 @@ export const KrystofCards = [
     button: "null"
   },
   {
-    title: "Hi, I'm Krystof 😊",
+    title: "Hey, I'm Krystof — professional heart-thief and part-time snack. 😊",
     image: hellocat,
     button: "null"
   },
